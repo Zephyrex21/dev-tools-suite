@@ -2,12 +2,6 @@
 
 # DevKit
 
-A modern browser-based developer toolkit for working with JWT, JSON, and data transformation utilities.
-
-Fast. Private. Client-side. Built for developers.
-
-<br>
-
 <div>
 
 <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white" />
@@ -16,6 +10,12 @@ Fast. Private. Client-side. Built for developers.
 <img src="https://img.shields.io/badge/TailwindCSS-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" />
 
 </div>
+
+<br><br>
+
+A modern browser-based developer toolkit for working with JWT, JSON, and data transformation utilities.
+
+Fast. Private. Client-side. Built for developers.
 
 <br>
 

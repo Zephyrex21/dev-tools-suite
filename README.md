@@ -24,6 +24,16 @@ All processing happens locally in your browser, keeping your data private and se
 
 ---
 
+## Privacy
+
+DevKit is designed with a privacy-first approach.
+
+Your data stays inside your browser.
+
+No files, tokens, or JSON data are sent to external servers.
+
+---
+
 ## Features
 
 ### JWT Tools
@@ -75,90 +85,6 @@ All processing happens locally in your browser, keeping your data private and se
 - js-yaml
 - fast-xml-parser
 - PapaParse
-
----
-
-## Project Structure
-
-```
-src/
-│
-├── components/     # Reusable UI components
-├── hooks/          # Custom React hooks
-├── lib/            # Core utilities and logic
-├── routes/         # Application routes
-│
-└── main.tsx
-```
-
----
-
-## Getting Started
-
-### Prerequisites
-
-Make sure you have:
-
-- Node.js installed
-- npm or yarn installed
-
-### Installation
-
-Clone the repository:
-
-```bash
-git clone https://github.com/yourusername/devkit.git
-```
-
-Navigate into the project:
-
-```bash
-cd devkit
-```
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Run the development server:
-
-```bash
-npm run dev
-```
-
-The application will be available at:
-
-```
-http://localhost:5173
-```
-
----
-
-## Build for Production
-
-Create an optimized production build:
-
-```bash
-npm run build
-```
-
-Preview production build:
-
-```bash
-npm run preview
-```
-
----
-
-## Privacy
-
-DevKit is designed with a privacy-first approach.
-
-Your data stays inside your browser.
-
-No files, tokens, or JSON data are sent to external servers.
 
 ---
 

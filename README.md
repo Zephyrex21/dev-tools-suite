@@ -1,78 +1,187 @@
-# DevKit — JWT & JSON Tools
+<div align="center">
 
-A free, client-side developer tools suite. Every tool runs entirely in the
-browser — nothing is ever sent to a server.
+# DevKit
 
-**v1 scope:** 5 JWT tools + 11 JSON tools (16 total). Encryption/key/password
-tools are planned for a later phase.
+A modern browser-based developer toolkit for working with JWT, JSON, and data transformation utilities.
 
-## Stack
+Fast. Private. Client-side. Built for developers.
 
-- React 19 + TypeScript + Vite
-- React Router (client-side routing, one URL per tool)
-- Tailwind CSS v4 (Apple-inspired light/dark theme, tokens in `src/index.css`)
-- `jose` for JWT signing/verification (Web Crypto, browser-safe)
-- `js-yaml`, `fast-xml-parser`, `papaparse` for JSON converters
-- `ajv` for JSON Schema validation
-- `jsonpath-plus` for JSONPath queries
-- `jsondiffpatch` (core diff algorithm only — custom renderer in `lib/json.ts`)
+</div>
 
-## Run locally
+---
 
-```bash
-npm install
-npm run dev        # http://localhost:5173
-```
+<p align="center">
+  <img src="./docs/screenshots/Homepage.png" width="900">
+</p>
 
-## Build for production
+## Overview
 
-```bash
-npm run build       # outputs to dist/
-npm run preview     # serve the production build locally
-```
+DevKit is an all-in-one developer utility suite designed to simplify common development tasks directly from your browser.
 
-## Deploy for free
+It provides tools for encoding, decoding, validating, formatting, comparing, and transforming data without requiring external services or backend infrastructure.
 
-This is a fully static site — no backend, no environment variables, no API
-keys. Any static host works:
+All processing happens locally in your browser, keeping your data private and secure.
 
-- **Vercel:** `vercel deploy` (or connect the GitHub repo in the dashboard) —
-  it auto-detects Vite.
-- **Netlify:** drag-and-drop the `dist/` folder, or connect the repo with
-  build command `npm run build` and publish directory `dist`.
-- **GitHub Pages / Cloudflare Pages:** same build command/output directory.
+---
 
-## Project structure
+## Features
+
+### JWT Tools
+
+- Encode JWT tokens
+- Decode JWT payloads
+- Validate JWT structure
+- Inspect token information
+
+### JSON Tools
+
+- JSON formatter and beautifier
+- JSON validator
+- JSON comparison
+- JSONPath query support
+- JSON schema validation
+
+### Data Utilities
+
+- JSON ↔ YAML conversion
+- JSON ↔ XML conversion
+- JSON ↔ CSV conversion
+
+### Developer Experience
+
+- Modern responsive interface
+- Dark and light themes
+- Fast client-side processing
+- No account required
+- No data uploaded to servers
+
+---
+
+## Tech Stack
+
+**Frontend**
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+
+**Libraries**
+
+- jose
+- AJV
+- JSONPath Plus
+- jsondiffpatch
+- js-yaml
+- fast-xml-parser
+- PapaParse
+
+---
+
+## Project Structure
 
 ```
 src/
-  components/     Layout, Sidebar, TopBar, Panel, TokenStrip, JsonTree, ...
-  hooks/          useTheme (light/dark persistence)
-  lib/            jwt.ts, json.ts, base64url.ts — pure logic, no UI, unit-testable
-  routes/
-    jwt/          validator, encode, formatter, secret-generator, fuzzer
-    json/         formatter, validator, minifier, converter, schema, path,
-                   diff, generator, sort, escape, editor
-  App.tsx         Router config with route-level code splitting
+│
+├── components/     # Reusable UI components
+├── hooks/          # Custom React hooks
+├── lib/            # Core utilities and logic
+├── routes/         # Application routes
+│
+└── main.tsx
 ```
 
-Every tool is one route + one pure logic module in `lib/`. Adding a phase-2
-tool (crypto key generators, hashing, password generator, etc.) means adding
-a function to `lib/`, a route component, and one line in `lib/tools.ts` +
-`App.tsx` — the pattern is already established.
+---
 
-## Adding the next phase of tools
+## Getting Started
 
-1. Add pure logic to a new or existing file in `src/lib/`.
-2. Add a route component in `src/routes/<category>/`.
-3. Register it in `src/lib/tools.ts` (powers the sidebar, home page, and
-   search) and add the route in `src/App.tsx` (lazy-loaded, matching the
-   existing pattern).
+### Prerequisites
 
-## Notes on correctness
+Make sure you have:
 
-Every JWT/JSON transformation in `lib/` was exercised against real
-inputs (round-trip tests: encode -> verify, format -> reparse, convert -> convert
-back, schema pass/fail, diff -> flatten) before shipping. Worth doing again
-after any change to `lib/jwt.ts` or `lib/json.ts`, since a broken sample
-token or silent conversion bug is easy to miss visually.
+- Node.js installed
+- npm or yarn installed
+
+### Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/devkit.git
+```
+
+Navigate into the project:
+
+```bash
+cd devkit
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
+
+```bash
+npm run dev
+```
+
+The application will be available at:
+
+```
+http://localhost:5173
+```
+
+---
+
+## Build for Production
+
+Create an optimized production build:
+
+```bash
+npm run build
+```
+
+Preview production build:
+
+```bash
+npm run preview
+```
+
+---
+
+## Privacy
+
+DevKit is designed with a privacy-first approach.
+
+Your data stays inside your browser.
+
+No files, tokens, or JSON data are sent to external servers.
+
+---
+
+## Roadmap
+
+Future improvements:
+
+- More developer utilities
+- Improved tool organization
+- Keyboard shortcuts
+- Advanced JSON utilities
+- Progressive Web App support
+
+---
+
+## Contributing
+
+Contributions, suggestions, and improvements are welcome.
+
+Feel free to open an issue or submit a pull request.
+
+---
+
+## License
+
+This project is licensed under the MIT License.

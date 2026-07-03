@@ -6,40 +6,47 @@ export interface ToolMeta {
   description: string;
 }
 
-export const categories: { id: ToolMeta["category"]; label: string; blurb: string }[] = [
+export const categories: { id: ToolMeta["category"]; label: string; shortLabel: string; blurb: string }[] = [
   {
     id: "jwt",
     label: "JWT Tools",
+    shortLabel: "JWT",
     blurb: "Decode, verify, build, and stress-test JSON Web Tokens — including a fuzzer covering real attack vectors like alg confusion and jku injection.",
   },
   {
     id: "json",
     label: "JSON Tools",
+    shortLabel: "JSON",
     blurb: "Format, validate, convert, diff, and query JSON. Everything from a JSONPath finder to a full Ajv-powered schema validator.",
   },
   {
     id: "crypto",
     label: "Cryptographic Key Generators",
+    shortLabel: "Keys",
     blurb: "Generate signing key pairs, AES keys, and API keys — all with the Web Crypto CSPRNG, entirely on-device.",
   },
   {
     id: "security",
     label: "Encryption & Security Tools",
+    shortLabel: "Encryption",
     blurb: "Encrypt and decrypt with AES-GCM or RSA-OAEP, and generate MD5/SHA digests, without a server in the loop.",
   },
   {
     id: "identity",
     label: "Password & Identity Tools",
+    shortLabel: "Passwords",
     blurb: "Strong random passwords with a real entropy meter, plus v1/v4/v5 UUID generation.",
   },
   {
     id: "encoding",
     label: "Data Encoding & Formatting",
+    shortLabel: "Encoding",
     blurb: "Base64, percent-encoding, and a regex tester with live match highlighting.",
   },
   {
     id: "resources",
     label: "Web Resources & Content Tools",
+    shortLabel: "Resources",
     blurb: "Placeholder text, URL parsing, and an HTML entities reference — the small utilities you reach for constantly.",
   },
 ];
@@ -91,4 +98,10 @@ export const tools: ToolMeta[] = [
 
 export function toolByPath(path: string): ToolMeta | undefined {
   return tools.find((t) => t.path === path);
+}
+
+export function firstToolInCategory(category: ToolMeta["category"]): ToolMeta {
+  const match = tools.find((t) => t.category === category);
+  if (!match) throw new Error(`No tools registered for category "${category}"`);
+  return match;
 }

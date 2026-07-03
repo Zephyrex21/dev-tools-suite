@@ -110,8 +110,9 @@ export function jsonToCsv(text: string): JsonResult<string> {
 
 export function csvToJson(text: string): JsonResult<string> {
   const result = Papa.parse(text.trim(), { header: true, dynamicTyping: true, skipEmptyLines: true });
-  if (result.errors.length > 0) {
-    return { ok: false, error: result.errors[0].message };
+  const fatalErrors = result.errors.filter((e) => e.code !== "UndetectableDelimiter");
+  if (fatalErrors.length > 0) {
+    return { ok: false, error: fatalErrors[0].message };
   }
   return { ok: true, value: JSON.stringify(result.data, null, 2) };
 }

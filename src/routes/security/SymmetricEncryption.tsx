@@ -12,6 +12,7 @@ export default function SymmetricEncryption() {
   const [plaintext, setPlaintext] = useState("The Analytical Engine has no pretensions whatever to originate anything.");
   const [encrypted, setEncrypted] = useState<{ ciphertext: string; iv: string; salt: string } | null>(null);
   const [busy, setBusy] = useState(false);
+  const [encryptError, setEncryptError] = useState<string | undefined>();
 
   const [ciphertextIn, setCiphertextIn] = useState("");
   const [ivIn, setIvIn] = useState("");
@@ -21,9 +22,16 @@ export default function SymmetricEncryption() {
 
   async function handleEncrypt() {
     setBusy(true);
-    const r = await aesEncrypt(plaintext, passphrase);
-    setEncrypted(r);
-    setBusy(false);
+    setEncryptError(undefined);
+    try {
+      const r = await aesEncrypt(plaintext, passphrase);
+      setEncrypted(r);
+    } catch (err) {
+      setEncrypted(null);
+      setEncryptError(err instanceof Error ? err.message : "Encryption failed.");
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function handleDecrypt() {
@@ -94,6 +102,8 @@ export default function SymmetricEncryption() {
             >
               {busy ? "Encrypting…" : "Encrypt"}
             </button>
+
+            {encryptError && <Callout tone="bad">{encryptError}</Callout>}
 
             {encrypted && (
               <>

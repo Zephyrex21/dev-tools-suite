@@ -1,13 +1,6 @@
 import { Link } from "react-router-dom";
-import {
-  ArrowRight,
-  ArrowUpRight,
-  ShieldCheck,
-  Zap,
-  Lock as LockIcon,
-  Boxes,
-} from "lucide-react";
-import { categories, tools } from "../lib/tools";
+import { ArrowRight, ArrowUpRight, ShieldCheck, Zap, Lock as LockIcon, Boxes } from "lucide-react";
+import { categories, tools, firstToolInCategory } from "../lib/tools";
 import { categoryIcons } from "../lib/categoryIcons";
 import { siteConfig } from "../lib/siteConfig";
 import { LandingNav } from "../components/LandingNav";
@@ -17,7 +10,7 @@ const valueProps = [
   { icon: ShieldCheck, title: "100% free", desc: "No tiers, no paywalls, no \"pro\" version." },
   { icon: LockIcon, title: "Runs in your browser", desc: "Every operation happens on-device. Nothing is ever uploaded." },
   { icon: Zap, title: "No accounts", desc: "No sign-up, no rate limits, no tracking." },
-  { icon: Boxes, title: "30 tools, one workspace", desc: "Stop juggling tabs across seven different sites." },
+  { icon: Boxes, title: `${tools.length} tools, one workspace`, desc: "Stop juggling tabs across seven different sites." },
 ];
 
 const faqs = [
@@ -70,7 +63,7 @@ export default function Landing() {
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Link
             to="/app"
-            className="focus-ring inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-accent)] px-5 py-2.5 text-[14px] font-semibold text-white transition-opacity hover:opacity-90"
+            className="focus-ring inline-flex items-center gap-1.5 rounded-full bg-[var(--color-accent)] px-5 py-2.5 text-[14px] font-semibold text-white shadow-[0_1px_2px_rgba(0,0,0,0.08)] transition-opacity hover:opacity-90"
           >
             Launch App <ArrowRight size={15} />
           </Link>
@@ -80,9 +73,9 @@ export default function Landing() {
               e.preventDefault();
               document.getElementById("features")?.scrollIntoView({ behavior: "smooth" });
             }}
-            className="focus-ring inline-flex items-center gap-1.5 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-5 py-2.5 text-[14px] font-semibold text-[var(--color-ink)] transition-colors hover:border-[var(--color-border-strong)]"
+            className="focus-ring inline-flex items-center gap-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-5 py-2.5 text-[14px] font-semibold text-[var(--color-ink)] transition-colors hover:border-[var(--color-border-strong)]"
           >
-            Browse tools
+            See what's inside
           </a>
         </div>
       </section>
@@ -102,53 +95,46 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Features / tool categories */}
+      {/* Features: one card per category, no tool listing — click jumps straight into that tool section */}
       <section id="features" className="scroll-mt-16 mx-auto max-w-5xl px-4 py-20 md:px-6">
-        <div className="mb-14 text-center">
+        <div className="mb-12 text-center">
           <h2 className="text-[30px] font-bold tracking-tight text-[var(--color-ink)] sm:text-[36px]">
             Everything in one place
           </h2>
           <p className="mx-auto mt-2 max-w-lg text-[15px] text-[var(--color-ink-dim)]">
-            Seven categories, {tools.length} tools, zero context-switching.
+            Seven categories, {tools.length} tools. Pick one to jump straight in.
           </p>
         </div>
 
-        <div className="flex flex-col gap-16">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((cat) => {
             const Icon = categoryIcons[cat.id];
-            const catTools = tools.filter((t) => t.category === cat.id);
+            const toolCount = tools.filter((t) => t.category === cat.id).length;
             return (
-              <div key={cat.id} id={cat.id} className="scroll-mt-20">
-                <div className="mb-5 flex items-start gap-3">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--color-accent-soft)] text-[var(--color-accent)]">
+              <Link
+                key={cat.id}
+                to={firstToolInCategory(cat.id).path}
+                className="focus-ring group flex flex-col gap-3 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-[var(--shadow-card)] transition-transform hover:-translate-y-0.5"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--color-accent-soft)] text-[var(--color-accent)]">
                     <Icon size={18} />
                   </span>
-                  <div>
-                    <h3 className="text-[19px] font-semibold text-[var(--color-ink)]">{cat.label}</h3>
-                    <p className="mt-0.5 max-w-2xl text-[13.5px] leading-relaxed text-[var(--color-ink-dim)]">
-                      {cat.blurb}
-                    </p>
+                  <ArrowRight
+                    size={16}
+                    className="text-[var(--color-ink-faint)] transition-transform group-hover:translate-x-0.5 group-hover:text-[var(--color-accent)]"
+                  />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-[15.5px] font-semibold text-[var(--color-ink)]">{cat.label}</h3>
+                    <span className="rounded-full bg-[var(--color-surface-2)] px-2 py-0.5 text-[11px] font-medium text-[var(--color-ink-faint)]">
+                      {toolCount}
+                    </span>
                   </div>
+                  <p className="mt-1.5 text-[13px] leading-relaxed text-[var(--color-ink-dim)]">{cat.blurb}</p>
                 </div>
-                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {catTools.map((t) => (
-                    <Link
-                      key={t.id}
-                      to={t.path}
-                      className="focus-ring group flex items-center justify-between gap-2 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3.5 shadow-[var(--shadow-card)] transition-transform hover:-translate-y-0.5"
-                    >
-                      <div className="min-w-0">
-                        <div className="text-[13.5px] font-semibold text-[var(--color-ink)]">{t.name}</div>
-                        <div className="mt-0.5 truncate text-[12px] text-[var(--color-ink-dim)]">{t.description}</div>
-                      </div>
-                      <ArrowRight
-                        size={14}
-                        className="shrink-0 text-[var(--color-ink-faint)] transition-transform group-hover:translate-x-0.5 group-hover:text-[var(--color-accent)]"
-                      />
-                    </Link>
-                  ))}
-                </div>
-              </div>
+              </Link>
             );
           })}
         </div>

@@ -12,12 +12,20 @@ export default function RsaEcKeyGen() {
   const [format, setFormat] = useState<"pem" | "jwk">("pem");
   const [result, setResult] = useState<KeyPairResult | null>(null);
   const [generating, setGenerating] = useState(false);
+  const [error, setError] = useState<string | undefined>();
 
   async function handleGenerate() {
     setGenerating(true);
-    const r = await generateSigningKeyPair(alg);
-    setResult(r);
-    setGenerating(false);
+    setError(undefined);
+    try {
+      const r = await generateSigningKeyPair(alg);
+      setResult(r);
+    } catch (err) {
+      setResult(null);
+      setError(err instanceof Error ? err.message : "Key generation failed — this browser may not support this algorithm.");
+    } finally {
+      setGenerating(false);
+    }
   }
 
   return (
@@ -78,6 +86,8 @@ export default function RsaEcKeyGen() {
             <KeyRound size={14} /> {generating ? "Generating…" : "Generate key pair"}
           </button>
         </div>
+
+        {error && <Callout tone="bad">{error}</Callout>}
 
         {result && (
           <>

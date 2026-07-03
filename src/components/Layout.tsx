@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { X } from "lucide-react";
 import { TopBar } from "./TopBar";
 import { Sidebar, SidebarContent } from "./Sidebar";
 import { CommandPalette } from "./CommandPalette";
+import { ErrorBoundary } from "./ErrorBoundary";
 
 export function Layout() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -53,7 +55,9 @@ export function Layout() {
 
         <main className="min-w-0 flex-1 px-4 py-8 md:px-8">
           <div className="mx-auto max-w-4xl">
-            <Outlet />
+            <ErrorBoundary key={pathname}>
+              <Outlet />
+            </ErrorBoundary>
           </div>
         </main>
       </div>

@@ -13,6 +13,7 @@ import {
 export default function AsymmetricEncryption() {
   const [keyPair, setKeyPair] = useState<RsaOaepKeyPair | null>(null);
   const [generating, setGenerating] = useState(false);
+  const [generateError, setGenerateError] = useState<string | undefined>();
 
   const [plaintext, setPlaintext] = useState("Meet at the usual place, 9pm.");
   const [ciphertext, setCiphertext] = useState("");
@@ -24,11 +25,18 @@ export default function AsymmetricEncryption() {
 
   async function handleGenerate() {
     setGenerating(true);
-    const kp = await generateRsaOaepKeyPair(2048);
-    setKeyPair(kp);
-    setCiphertext("");
-    setDecrypted("");
-    setGenerating(false);
+    setGenerateError(undefined);
+    try {
+      const kp = await generateRsaOaepKeyPair(2048);
+      setKeyPair(kp);
+      setCiphertext("");
+      setDecrypted("");
+    } catch (err) {
+      setKeyPair(null);
+      setGenerateError(err instanceof Error ? err.message : "Key generation failed — this browser may not support RSA-OAEP.");
+    } finally {
+      setGenerating(false);
+    }
   }
 
   async function handleEncrypt() {
@@ -71,6 +79,8 @@ export default function AsymmetricEncryption() {
         >
           <KeyRound size={14} /> {generating ? "Generating 2048-bit key pair…" : "Generate key pair"}
         </button>
+
+        {generateError && <Callout tone="bad">{generateError}</Callout>}
 
         {keyPair && (
           <>

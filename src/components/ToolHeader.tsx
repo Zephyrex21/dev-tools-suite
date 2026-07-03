@@ -12,7 +12,7 @@ export function ToolHeader({ name, description }: { name: string; description: s
     <div className="mb-6">
       {tool && (
         <div className="mb-2 flex items-center gap-1.5 text-[12.5px] text-[var(--color-ink-faint)]">
-          <Link to="/" className="hover:text-[var(--color-ink-dim)]">
+          <Link to="/app" className="hover:text-[var(--color-ink-dim)]">
             DevKit
           </Link>
           <ChevronRight size={12} />

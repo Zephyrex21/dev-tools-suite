@@ -15,7 +15,7 @@ export function TopBar({ onMenuClick, onSearchClick }: { onMenuClick: () => void
           >
             <Menu size={18} />
           </button>
-          <Link to="/" className="focus-ring flex items-center gap-2 rounded-lg">
+          <Link to="/app" className="focus-ring flex items-center gap-2 rounded-lg">
             <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--color-accent)] text-white">
               <ShieldCheck size={15} />
             </span>

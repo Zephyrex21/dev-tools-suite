@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import { categories, tools } from "../lib/tools";
+import { categoryIcons } from "../lib/categoryIcons";
 
 function useActiveCategory(): string {
   const { pathname } = useLocation();
@@ -31,6 +32,7 @@ export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
       {categories.map((cat) => {
         const isOpen = openCategories.has(cat.id);
         const catTools = tools.filter((t) => t.category === cat.id);
+        const Icon = categoryIcons[cat.id];
         return (
           <div key={cat.id}>
             <button
@@ -38,7 +40,8 @@ export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
               onClick={() => toggle(cat.id)}
               className="focus-ring flex w-full items-center justify-between rounded-lg px-3 py-2 text-left"
             >
-              <span className="text-[11px] font-semibold uppercase tracking-wide text-[var(--color-ink-faint)]">
+              <span className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-[var(--color-ink-faint)]">
+                <Icon size={13} />
                 {cat.label}
               </span>
               <ChevronDown

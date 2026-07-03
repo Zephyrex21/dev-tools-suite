@@ -6,14 +6,42 @@ export interface ToolMeta {
   description: string;
 }
 
-export const categories: { id: ToolMeta["category"]; label: string }[] = [
-  { id: "jwt", label: "JWT Tools" },
-  { id: "json", label: "JSON Tools" },
-  { id: "crypto", label: "Cryptographic Key Generators" },
-  { id: "security", label: "Encryption & Security Tools" },
-  { id: "identity", label: "Password & Identity Tools" },
-  { id: "encoding", label: "Data Encoding & Formatting" },
-  { id: "resources", label: "Web Resources & Content Tools" },
+export const categories: { id: ToolMeta["category"]; label: string; blurb: string }[] = [
+  {
+    id: "jwt",
+    label: "JWT Tools",
+    blurb: "Decode, verify, build, and stress-test JSON Web Tokens — including a fuzzer covering real attack vectors like alg confusion and jku injection.",
+  },
+  {
+    id: "json",
+    label: "JSON Tools",
+    blurb: "Format, validate, convert, diff, and query JSON. Everything from a JSONPath finder to a full Ajv-powered schema validator.",
+  },
+  {
+    id: "crypto",
+    label: "Cryptographic Key Generators",
+    blurb: "Generate signing key pairs, AES keys, and API keys — all with the Web Crypto CSPRNG, entirely on-device.",
+  },
+  {
+    id: "security",
+    label: "Encryption & Security Tools",
+    blurb: "Encrypt and decrypt with AES-GCM or RSA-OAEP, and generate MD5/SHA digests, without a server in the loop.",
+  },
+  {
+    id: "identity",
+    label: "Password & Identity Tools",
+    blurb: "Strong random passwords with a real entropy meter, plus v1/v4/v5 UUID generation.",
+  },
+  {
+    id: "encoding",
+    label: "Data Encoding & Formatting",
+    blurb: "Base64, percent-encoding, and a regex tester with live match highlighting.",
+  },
+  {
+    id: "resources",
+    label: "Web Resources & Content Tools",
+    blurb: "Placeholder text, URL parsing, and an HTML entities reference — the small utilities you reach for constantly.",
+  },
 ];
 
 export const tools: ToolMeta[] = [

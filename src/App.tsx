@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/Layout";
+import Landing from "./routes/Landing";
 import Home from "./routes/Home";
 
 const JwtValidator = lazy(() => import("./routes/jwt/Validator"));
@@ -53,8 +54,10 @@ export default function App() {
     <BrowserRouter>
       <Suspense fallback={<RouteFallback />}>
         <Routes>
+          <Route path="/" element={<Landing />} />
+
           <Route element={<Layout />}>
-            <Route path="/" element={<Home />} />
+            <Route path="/app" element={<Home />} />
 
             <Route path="/jwt/validator" element={<JwtValidator />} />
             <Route path="/jwt/encode" element={<JwtEncode />} />

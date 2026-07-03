@@ -1,4 +1,4 @@
-import { md5 } from "js-md5";
+import { md5 } from "./md5";
 import { toPem, fromPem } from "./pem";
 
 // ---- Random key / API key generation ----

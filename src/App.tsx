@@ -21,6 +21,25 @@ const JsonSort = lazy(() => import("./routes/json/Sort"));
 const JsonEscape = lazy(() => import("./routes/json/Escape"));
 const JsonEditor = lazy(() => import("./routes/json/Editor"));
 
+const CryptoRsaEcKeyGen = lazy(() => import("./routes/crypto/RsaEcKeyGen"));
+const CryptoEncryptionKeyGen = lazy(() => import("./routes/crypto/EncryptionKeyGen"));
+const CryptoApiKeyGen = lazy(() => import("./routes/crypto/ApiKeyGen"));
+
+const SecuritySymmetric = lazy(() => import("./routes/security/SymmetricEncryption"));
+const SecurityAsymmetric = lazy(() => import("./routes/security/AsymmetricEncryption"));
+const SecurityHash = lazy(() => import("./routes/security/HashGenerator"));
+
+const IdentityPassword = lazy(() => import("./routes/identity/PasswordGenerator"));
+const IdentityUuid = lazy(() => import("./routes/identity/UuidGenerator"));
+
+const EncodingBase64 = lazy(() => import("./routes/encoding/Base64"));
+const EncodingUrl = lazy(() => import("./routes/encoding/UrlEncode"));
+const EncodingRegex = lazy(() => import("./routes/encoding/Regex"));
+
+const ResourcesLorem = lazy(() => import("./routes/resources/LoremIpsum"));
+const ResourcesUrlParser = lazy(() => import("./routes/resources/UrlParser"));
+const ResourcesHtmlEntities = lazy(() => import("./routes/resources/HtmlEntities"));
+
 function RouteFallback() {
   return (
     <div className="flex h-64 items-center justify-center">
@@ -54,6 +73,25 @@ export default function App() {
             <Route path="/json/sort" element={<JsonSort />} />
             <Route path="/json/escape" element={<JsonEscape />} />
             <Route path="/json/editor" element={<JsonEditor />} />
+
+            <Route path="/crypto/rsa-ec-keygen" element={<CryptoRsaEcKeyGen />} />
+            <Route path="/crypto/encryption-key" element={<CryptoEncryptionKeyGen />} />
+            <Route path="/crypto/api-key" element={<CryptoApiKeyGen />} />
+
+            <Route path="/security/symmetric" element={<SecuritySymmetric />} />
+            <Route path="/security/asymmetric" element={<SecurityAsymmetric />} />
+            <Route path="/security/hash" element={<SecurityHash />} />
+
+            <Route path="/identity/password" element={<IdentityPassword />} />
+            <Route path="/identity/uuid" element={<IdentityUuid />} />
+
+            <Route path="/encoding/base64" element={<EncodingBase64 />} />
+            <Route path="/encoding/url" element={<EncodingUrl />} />
+            <Route path="/encoding/regex" element={<EncodingRegex />} />
+
+            <Route path="/resources/lorem-ipsum" element={<ResourcesLorem />} />
+            <Route path="/resources/url-parser" element={<ResourcesUrlParser />} />
+            <Route path="/resources/html-entities" element={<ResourcesHtmlEntities />} />
           </Route>
         </Routes>
       </Suspense>

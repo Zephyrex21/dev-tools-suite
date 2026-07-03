@@ -13,6 +13,7 @@
     "ajv": "^8.20.0",
     "fast-xml-parser": "^5.9.3",
     "jose": "^6.2.3",
+    "js-md5": "^0.8.3",
     "js-yaml": "^5.2.0",
     "jsondiffpatch": "^0.7.6",
     "jsonpath-plus": "^10.4.0",
@@ -20,10 +21,12 @@
     "papaparse": "^5.5.4",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "react-router-dom": "^7.18.1"
+    "react-router-dom": "^7.18.1",
+    "uuid": "^14.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.2",
+    "@types/js-md5": "^0.8.0",
     "@types/node": "^24.13.2",
     "@types/papaparse": "^5.5.2",
     "@types/react": "^19.2.17",

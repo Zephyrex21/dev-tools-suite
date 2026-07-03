@@ -1,15 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { X } from "lucide-react";
 import { TopBar } from "./TopBar";
 import { Sidebar, SidebarContent } from "./Sidebar";
+import { CommandPalette } from "./CommandPalette";
 
 export function Layout() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setPaletteOpen(true);
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   return (
     <div className="min-h-screen bg-[var(--color-bg)]">
-      <TopBar onMenuClick={() => setDrawerOpen(true)} />
+      <TopBar onMenuClick={() => setDrawerOpen(true)} onSearchClick={() => setPaletteOpen(true)} />
+      <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
+
       <div className="mx-auto flex max-w-7xl">
         <Sidebar />
 

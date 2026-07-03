@@ -2,13 +2,18 @@ export interface ToolMeta {
   id: string;
   name: string;
   path: string;
-  category: "jwt" | "json";
+  category: "jwt" | "json" | "crypto" | "security" | "identity" | "encoding" | "resources";
   description: string;
 }
 
-export const categories: { id: "jwt" | "json"; label: string }[] = [
+export const categories: { id: ToolMeta["category"]; label: string }[] = [
   { id: "jwt", label: "JWT Tools" },
   { id: "json", label: "JSON Tools" },
+  { id: "crypto", label: "Cryptographic Key Generators" },
+  { id: "security", label: "Encryption & Security Tools" },
+  { id: "identity", label: "Password & Identity Tools" },
+  { id: "encoding", label: "Data Encoding & Formatting" },
+  { id: "resources", label: "Web Resources & Content Tools" },
 ];
 
 export const tools: ToolMeta[] = [
@@ -30,6 +35,30 @@ export const tools: ToolMeta[] = [
   { id: "json-sort", name: "Sort Keys", path: "/json/sort", category: "json", description: "Recursively sort object keys alphabetically." },
   { id: "json-escape", name: "Escape / Unescape", path: "/json/escape", category: "json", description: "Escape or unescape a JSON string value." },
   { id: "json-editor", name: "Tree Editor", path: "/json/editor", category: "json", description: "Browse JSON as a collapsible tree." },
+
+  // Cryptographic Key Generators
+  { id: "crypto-rsa-ec", name: "RSA/EC Key Pair Generator", path: "/crypto/rsa-ec-keygen", category: "crypto", description: "Generate signing key pairs for RS256/ES256 (PEM & JWK)." },
+  { id: "crypto-enc-key", name: "Encryption Key Generator", path: "/crypto/encryption-key", category: "crypto", description: "Generate a random AES key for symmetric encryption." },
+  { id: "crypto-api-key", name: "API Key Generator", path: "/crypto/api-key", category: "crypto", description: "Generate a random, prefixable API key." },
+
+  // Encryption & Security Tools
+  { id: "security-symmetric", name: "Symmetric Encryption", path: "/security/symmetric", category: "security", description: "Encrypt or decrypt text with AES-GCM and a passphrase." },
+  { id: "security-asymmetric", name: "Asymmetric Encryption", path: "/security/asymmetric", category: "security", description: "Encrypt with an RSA public key, decrypt with the private key." },
+  { id: "security-hash", name: "Hash Generator", path: "/security/hash", category: "security", description: "Generate MD5, SHA-1, SHA-256, SHA-384, SHA-512 digests." },
+
+  // Password & Identity Tools
+  { id: "identity-password", name: "Password Generator", path: "/identity/password", category: "identity", description: "Generate strong random passwords with a strength meter." },
+  { id: "identity-uuid", name: "UUID Generator", path: "/identity/uuid", category: "identity", description: "Generate v1 (timestamp), v4 (random), or v5 (name-based) UUIDs." },
+
+  // Data Encoding & Formatting
+  { id: "encoding-base64", name: "Base64 Encoder/Decoder", path: "/encoding/base64", category: "encoding", description: "Encode text to Base64 or decode it back." },
+  { id: "encoding-url", name: "URL Encoder/Decoder", path: "/encoding/url", category: "encoding", description: "Percent-encode or decode text and URLs." },
+  { id: "encoding-regex", name: "Regex Tester", path: "/encoding/regex", category: "encoding", description: "Test a regex against text with live match highlighting." },
+
+  // Web Resources & Content Tools
+  { id: "resources-lorem", name: "Lorem Ipsum Generator", path: "/resources/lorem-ipsum", category: "resources", description: "Generate placeholder text by words, sentences, or paragraphs." },
+  { id: "resources-url-parser", name: "URL Parser", path: "/resources/url-parser", category: "resources", description: "Break a URL into its components and query parameters." },
+  { id: "resources-html-entities", name: "HTML Entities", path: "/resources/html-entities", category: "resources", description: "Encode/decode HTML entities, plus a reference table." },
 ];
 
 export function toolByPath(path: string): ToolMeta | undefined {

@@ -16,8 +16,11 @@ export default function Home() {
           without the tab hoarding.
         </h1>
         <p className="mt-3 max-w-lg text-[16px] leading-relaxed text-[var(--color-ink-dim)]">
-          JWT and JSON utilities in one clean workspace. Every tool runs locally —
-          no uploads, no accounts, no rate limits.
+          {tools.length} JWT, JSON, crypto and encoding utilities in one clean workspace. Every
+          tool runs locally — no uploads, no accounts, no rate limits.
+          <span className="mt-1 block text-[13px] text-[var(--color-ink-faint)]">
+            Press <kbd className="rounded border border-[var(--color-border)] px-1.5 py-0.5 font-mono text-[11px]">⌘K</kbd> to jump to any tool.
+          </span>
         </p>
       </div>
 

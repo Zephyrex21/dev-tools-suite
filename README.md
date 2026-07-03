@@ -1,156 +1,78 @@
-<div align="center">
+# DevKit — JWT & JSON Tools
 
-# DevKit
+A free, client-side developer tools suite. Every tool runs entirely in the
+browser — nothing is ever sent to a server.
 
-<div>
+**v1 scope:** 5 JWT tools + 11 JSON tools (16 total). Encryption/key/password
+tools are planned for a later phase.
 
-<img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white" />
-<img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
-<img src="https://img.shields.io/badge/Vite-Latest-646CFF?style=for-the-badge&logo=vite&logoColor=white" />
-<img src="https://img.shields.io/badge/TailwindCSS-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" />
+## Stack
 
-</div>
+- React 19 + TypeScript + Vite
+- React Router (client-side routing, one URL per tool)
+- Tailwind CSS v4 (Apple-inspired light/dark theme, tokens in `src/index.css`)
+- `jose` for JWT signing/verification (Web Crypto, browser-safe)
+- `js-yaml`, `fast-xml-parser`, `papaparse` for JSON converters
+- `ajv` for JSON Schema validation
+- `jsonpath-plus` for JSONPath queries
+- `jsondiffpatch` (core diff algorithm only — custom renderer in `lib/json.ts`)
 
-<br>
+## Run locally
 
-A modern browser-based developer toolkit for working with JWT, JSON, and data transformation utilities.
+```bash
+npm install
+npm run dev        # http://localhost:5173
+```
 
-Fast. Private. Client-side. Built for developers.
+## Build for production
 
-<br>
+```bash
+npm run build       # outputs to dist/
+npm run preview     # serve the production build locally
+```
 
-<a href="https://dev-tools-suite-xi.vercel.app/">
-  <img src="https://img.shields.io/badge/Live%20Demo-Visit%20DevKit-success?style=for-the-badge" />
-</a>
+## Deploy for free
 
-</div>
+This is a fully static site — no backend, no environment variables, no API
+keys. Any static host works:
 
----
+- **Vercel:** `vercel deploy` (or connect the GitHub repo in the dashboard) —
+  it auto-detects Vite.
+- **Netlify:** drag-and-drop the `dist/` folder, or connect the repo with
+  build command `npm run build` and publish directory `dist`.
+- **GitHub Pages / Cloudflare Pages:** same build command/output directory.
 
-<p align="center">
-  <img src="./docs/screenshots/Homepage.png" width="900">
-</p>
+## Project structure
 
-## Overview
+```
+src/
+  components/     Layout, Sidebar, TopBar, Panel, TokenStrip, JsonTree, ...
+  hooks/          useTheme (light/dark persistence)
+  lib/            jwt.ts, json.ts, base64url.ts — pure logic, no UI, unit-testable
+  routes/
+    jwt/          validator, encode, formatter, secret-generator, fuzzer
+    json/         formatter, validator, minifier, converter, schema, path,
+                   diff, generator, sort, escape, editor
+  App.tsx         Router config with route-level code splitting
+```
 
-DevKit is an all-in-one developer utility suite designed to simplify common development tasks directly from your browser.
+Every tool is one route + one pure logic module in `lib/`. Adding a phase-2
+tool (crypto key generators, hashing, password generator, etc.) means adding
+a function to `lib/`, a route component, and one line in `lib/tools.ts` +
+`App.tsx` — the pattern is already established.
 
-It provides tools for encoding, decoding, validating, formatting, comparing, and transforming data without requiring external services or backend infrastructure.
+## Adding the next phase of tools
 
-All processing happens locally in your browser, keeping your data private and secure.
+1. Add pure logic to a new or existing file in `src/lib/`.
+2. Add a route component in `src/routes/<category>/`.
+3. Register it in `src/lib/tools.ts` (powers the sidebar, home page, and
+   search) and add the route in `src/App.tsx` (lazy-loaded, matching the
+   existing pattern).
 
----
+## Notes on correctness
 
-## Privacy
-
-DevKit is designed with a privacy-first approach.
-
-Your data stays inside your browser.
-
-No files, tokens, or JSON data are sent to external servers.
-
----
-
-## Features
-
-<table>
-<tr>
-
-<td width="50%" valign="top">
-
-### JWT Tools
-
-* Encode JWT tokens
-* Decode JWT payloads
-* Validate JWT structure
-* Inspect token information
-
-</td>
-
-<td width="50%" valign="top">
-
-### JSON Tools
-
-* JSON formatter and beautifier
-* JSON validator
-* JSON comparison
-* JSONPath query support
-* JSON schema validation
-
-</td>
-
-</tr>
-
-<tr>
-
-<td width="50%" valign="top">
-
-### Data Utilities
-
-* JSON ↔ YAML conversion
-* JSON ↔ XML conversion
-* JSON ↔ CSV conversion
-
-</td>
-
-<td width="50%" valign="top">
-
-### Developer Experience
-
-* Modern responsive interface
-* Dark and light themes
-* Fast client-side processing
-* No account required
-* No data uploaded to servers
-
-</td>
-
-</tr>
-</table>
-
----
-
-## Tech Stack
-
-### Frontend
-
-* React
-* TypeScript
-* Vite
-* Tailwind CSS
-
-### Libraries
-
-* jose
-* AJV
-* JSONPath Plus
-* jsondiffpatch
-* js-yaml
-* fast-xml-parser
-* PapaParse
-
----
-
-## Roadmap
-
-Future improvements:
-
-* More developer utilities
-* Improved tool organization
-* Keyboard shortcuts
-* Advanced JSON utilities
-* Progressive Web App support
-
----
-
-## Contributing
-
-Contributions, suggestions, and improvements are welcome.
-
-Feel free to open an issue or submit a pull request.
-
----
-
-## License
-
-This project is licensed under the MIT License.
+Every JWT/JSON transformation in `lib/` was exercised against real
+inputs (round-trip tests: encode -> verify, format -> reparse, convert -> convert
+back, schema pass/fail, diff -> flatten) before shipping. Worth doing again
+after any change to `lib/jwt.ts` or `lib/json.ts`, since a broken sample
+token or silent conversion bug is easy to miss visually.

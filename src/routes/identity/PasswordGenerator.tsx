@@ -102,7 +102,7 @@ export default function PasswordGenerator() {
           <button
             type="button"
             onClick={regenerate}
-            className="focus-ring mt-4 inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-accent)] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90"
+            className="focus-ring mt-4 inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-accent-strong)] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90"
           >
             <RefreshCw size={14} /> Regenerate
           </button>

@@ -70,7 +70,7 @@ export default function SymmetricEncryption() {
               onClick={() => setMode(m)}
               className={`focus-ring inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-[13px] font-medium capitalize transition-colors ${
                 mode === m
-                  ? "bg-[var(--color-accent)] text-white"
+                  ? "bg-[var(--color-accent-strong)] text-white"
                   : "text-[var(--color-ink-dim)] hover:text-[var(--color-ink)]"
               }`}
             >
@@ -98,7 +98,7 @@ export default function SymmetricEncryption() {
               type="button"
               onClick={handleEncrypt}
               disabled={busy || !plaintext}
-              className="focus-ring w-fit rounded-lg bg-[var(--color-accent)] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
+              className="focus-ring w-fit rounded-lg bg-[var(--color-accent-strong)] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
             >
               {busy ? "Encrypting…" : "Encrypt"}
             </button>
@@ -133,7 +133,7 @@ export default function SymmetricEncryption() {
               type="button"
               onClick={handleDecrypt}
               disabled={busy || !ciphertextIn || !ivIn || !saltIn}
-              className="focus-ring w-fit rounded-lg bg-[var(--color-accent)] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
+              className="focus-ring w-fit rounded-lg bg-[var(--color-accent-strong)] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
             >
               {busy ? "Decrypting…" : "Decrypt"}
             </button>

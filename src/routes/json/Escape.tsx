@@ -24,7 +24,7 @@ export default function Escape() {
               onClick={() => setMode(m)}
               className={`focus-ring rounded-md px-3 py-1.5 text-[13px] font-medium capitalize transition-colors ${
                 mode === m
-                  ? "bg-[var(--color-accent)] text-white"
+                  ? "bg-[var(--color-accent-strong)] text-white"
                   : "text-[var(--color-ink-dim)] hover:text-[var(--color-ink)]"
               }`}
             >

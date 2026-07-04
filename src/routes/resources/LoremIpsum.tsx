@@ -34,7 +34,7 @@ export default function LoremIpsum() {
                   type="button"
                   onClick={() => setUnit(u)}
                   className={`focus-ring rounded-md px-3 py-1.5 text-[13px] font-medium capitalize transition-colors ${
-                    unit === u ? "bg-[var(--color-accent)] text-white" : "text-[var(--color-ink-dim)] hover:text-[var(--color-ink)]"
+                    unit === u ? "bg-[var(--color-accent-strong)] text-white" : "text-[var(--color-ink-dim)] hover:text-[var(--color-ink)]"
                   }`}
                 >
                   {u}
@@ -59,7 +59,7 @@ export default function LoremIpsum() {
             <button
               type="button"
               onClick={regenerate}
-              className="focus-ring ml-auto inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-accent)] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90"
+              className="focus-ring ml-auto inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-accent-strong)] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90"
             >
               <RefreshCw size={14} /> Regenerate
             </button>

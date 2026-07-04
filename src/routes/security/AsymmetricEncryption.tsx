@@ -75,7 +75,7 @@ export default function AsymmetricEncryption() {
           type="button"
           onClick={handleGenerate}
           disabled={generating}
-          className="focus-ring inline-flex w-fit items-center gap-1.5 rounded-lg bg-[var(--color-accent)] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
+          className="focus-ring inline-flex w-fit items-center gap-1.5 rounded-lg bg-[var(--color-accent-strong)] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
         >
           <KeyRound size={14} /> {generating ? "Generating 2048-bit key pair…" : "Generate key pair"}
         </button>
@@ -98,7 +98,7 @@ export default function AsymmetricEncryption() {
                 type="button"
                 onClick={handleEncrypt}
                 disabled={!plaintext}
-                className="focus-ring mt-3 w-fit rounded-lg bg-[var(--color-accent)] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
+                className="focus-ring mt-3 w-fit rounded-lg bg-[var(--color-accent-strong)] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
               >
                 Encrypt
               </button>
@@ -137,7 +137,7 @@ export default function AsymmetricEncryption() {
                 type="button"
                 onClick={handleDecrypt}
                 disabled={!ciphertextIn}
-                className="focus-ring mt-3 w-fit rounded-lg bg-[var(--color-accent)] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
+                className="focus-ring mt-3 w-fit rounded-lg bg-[var(--color-accent-strong)] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
               >
                 Decrypt
               </button>

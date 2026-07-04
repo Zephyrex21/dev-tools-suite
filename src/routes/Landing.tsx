@@ -51,7 +51,7 @@ export default function Landing() {
           <ShieldCheck size={13} className="text-[var(--color-accent)]" />
           Free · Client-side · {tools.length} tools
         </span>
-        <h1 className="text-balance text-[40px] font-bold leading-[1.1] tracking-tight text-[var(--color-ink)] sm:text-[56px]">
+        <h1 className="text-balance text-premium-gradient text-[40px] font-bold leading-[1.1] tracking-tight sm:text-[56px]">
           Developer tools,
           <br />
           without the tab hoarding.
@@ -63,7 +63,7 @@ export default function Landing() {
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Link
             to="/app"
-            className="focus-ring inline-flex items-center gap-1.5 rounded-full bg-[var(--color-accent)] px-5 py-2.5 text-[14px] font-semibold text-white shadow-[0_1px_2px_rgba(0,0,0,0.08)] transition-opacity hover:opacity-90"
+            className="focus-ring inline-flex items-center gap-1.5 rounded-full bg-[var(--color-accent-strong)] px-5 py-2.5 text-[14px] font-semibold text-white shadow-[0_1px_2px_rgba(0,0,0,0.08)] transition-opacity hover:opacity-90"
           >
             Launch App <ArrowRight size={15} />
           </Link>
@@ -98,7 +98,7 @@ export default function Landing() {
       {/* Features: one card per category, no tool listing — click jumps straight into that tool section */}
       <section id="features" className="scroll-mt-16 mx-auto max-w-5xl px-4 py-20 md:px-6">
         <div className="mb-12 text-center">
-          <h2 className="text-[30px] font-bold tracking-tight text-[var(--color-ink)] sm:text-[36px]">
+          <h2 className="text-premium-gradient text-[30px] font-bold tracking-tight sm:text-[36px]">
             Everything in one place
           </h2>
           <p className="mx-auto mt-2 max-w-lg text-[15px] text-[var(--color-ink-dim)]">
@@ -143,7 +143,7 @@ export default function Landing() {
       {/* FAQ */}
       <section id="faq" className="scroll-mt-16 border-t border-[var(--color-border)] bg-[var(--color-surface)]">
         <div className="mx-auto max-w-2xl px-4 py-20 md:px-6">
-          <h2 className="text-center text-[30px] font-bold tracking-tight text-[var(--color-ink)] sm:text-[36px]">
+          <h2 className="text-center text-premium-gradient text-[30px] font-bold tracking-tight sm:text-[36px]">
             Frequently asked
           </h2>
           <div className="mt-10">
@@ -158,7 +158,7 @@ export default function Landing() {
       <footer className="border-t border-[var(--color-border)]">
         <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 px-4 py-10 text-center md:flex-row md:justify-between md:text-left">
           <div className="flex items-center gap-2">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--color-accent)] text-white">
+            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--color-accent-strong)] text-white">
               <ShieldCheck size={14} />
             </span>
             <span className="text-[14px] font-semibold text-[var(--color-ink)]">{siteConfig.name}</span>

@@ -30,7 +30,7 @@ export default function EncryptionKeyGen() {
                 onClick={() => setBits(b)}
                 className={`focus-ring rounded-md px-3 py-1.5 text-[13px] font-medium transition-colors ${
                   bits === b
-                    ? "bg-[var(--color-accent)] text-white"
+                    ? "bg-[var(--color-accent-strong)] text-white"
                     : "text-[var(--color-ink-dim)] hover:text-[var(--color-ink)]"
                 }`}
               >
@@ -41,7 +41,7 @@ export default function EncryptionKeyGen() {
           <button
             type="button"
             onClick={() => setKey(generateRandomKey(bits))}
-            className="focus-ring ml-auto inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-accent)] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90"
+            className="focus-ring ml-auto inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-accent-strong)] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90"
           >
             <RefreshCw size={14} /> Regenerate
           </button>

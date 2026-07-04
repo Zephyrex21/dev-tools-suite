@@ -65,7 +65,7 @@ export default function Converter() {
                 onClick={() => switchFormat(f)}
                 className={`focus-ring rounded-md px-3 py-1.5 text-[13px] font-medium transition-colors ${
                   format === f
-                    ? "bg-[var(--color-accent)] text-white"
+                    ? "bg-[var(--color-accent-strong)] text-white"
                     : "text-[var(--color-ink-dim)] hover:text-[var(--color-ink)]"
                 }`}
               >

@@ -24,7 +24,7 @@ export function LandingNav() {
             scrollToAnchor("top");
           }}
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--color-accent)] text-white">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--color-accent-strong)] text-white">
             <ShieldCheck size={16} />
           </span>
           <span className="text-[16px] font-semibold tracking-tight text-[var(--color-ink)]">{siteConfig.name}</span>
@@ -62,7 +62,7 @@ export function LandingNav() {
           </div>
           <Link
             to="/app"
-            className="focus-ring inline-flex h-9 items-center gap-1.5 rounded-full bg-[var(--color-accent)] px-4 text-[13px] font-semibold text-white shadow-[0_1px_2px_rgba(0,0,0,0.08)] transition-opacity hover:opacity-90"
+            className="focus-ring inline-flex h-9 items-center gap-1.5 rounded-full bg-[var(--color-accent-strong)] px-4 text-[13px] font-semibold text-white shadow-[0_1px_2px_rgba(0,0,0,0.08)] transition-opacity hover:opacity-90"
           >
             Launch App <ArrowRight size={14} />
           </Link>

@@ -6,67 +6,75 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
 
-  --color-bg: #fbfbfd;
-  --color-surface: #ffffff;
-  --color-surface-2: #f5f5f7;
-  --color-border: #e5e5ea;
-  --color-border-strong: #d2d2d7;
+  /* Cream premium light theme */
+  --color-bg: #faf6ef;
+  --color-surface: #fffdf9;
+  --color-surface-2: #f3ecdf;
+  --color-border: #e8dfcd;
+  --color-border-strong: #d8c9ab;
 
-  --color-ink: #1d1d1f;
-  --color-ink-dim: #6e6e73;
-  --color-ink-faint: #a1a1a6;
+  --color-ink: #2b2620;
+  --color-ink-dim: #6b6255;
+  --color-ink-faint: #786d59;
 
-  --color-accent: #0071e3;
-  --color-accent-soft: #e8f2fd;
+  --color-accent: #0068d6;
+  --color-accent-strong: #0068d6;
+  --color-accent-soft: #e8f0fb;
 
-  --color-header: #c2761f;
-  --color-header-soft: #fbf0e0;
+  --color-header: #b8641a;
+  --color-header-soft: #faeedd;
   --color-payload: #6e40c9;
-  --color-payload-soft: #f1ebfb;
+  --color-payload-soft: #f0eafb;
   --color-sig: #0a7d6e;
-  --color-sig-soft: #e3f5f2;
+  --color-sig-soft: #e2f4f0;
 
   --color-good: #1a7f4b;
-  --color-good-soft: #e6f6ee;
+  --color-good-soft: #e8f5ec;
   --color-bad: #c8352e;
-  --color-bad-soft: #fbeaea;
-  --color-warn: #b5750a;
-  --color-warn-soft: #fbf1e0;
+  --color-bad-soft: #fbeae7;
+  --color-warn: #a8660a;
+  --color-warn-soft: #faf0dd;
 
-  --shadow-card: 0 1px 2px rgba(0,0,0,0.04), 0 1px 12px rgba(0,0,0,0.04);
-  --shadow-raised: 0 4px 24px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+  --gradient-premium: linear-gradient(135deg, #2b2620 0%, #6b4a24 100%);
+
+  --shadow-card: 0 1px 2px rgba(43,38,32,0.05), 0 1px 14px rgba(43,38,32,0.05);
+  --shadow-raised: 0 8px 30px rgba(43,38,32,0.10), 0 1px 2px rgba(43,38,32,0.06);
 }
 
 .dark {
-  --color-bg: #000000;
-  --color-surface: #1c1c1e;
-  --color-surface-2: #242426;
-  --color-border: #333336;
-  --color-border-strong: #48484a;
+  /* Warm near-black dark theme with gold-gradient capability */
+  --color-bg: #0b0a07;
+  --color-surface: #1b1712;
+  --color-surface-2: #24201a;
+  --color-border: #3a3327;
+  --color-border-strong: #554b39;
 
-  --color-ink: #f5f5f7;
-  --color-ink-dim: #98989d;
-  --color-ink-faint: #6e6e73;
+  --color-ink: #f7f2e8;
+  --color-ink-dim: #bfb49f;
+  --color-ink-faint: #85795f;
 
-  --color-accent: #2997ff;
-  --color-accent-soft: #0a2540;
+  --color-accent: #4aa8ff;
+  --color-accent-strong: #2472d1;
+  --color-accent-soft: #132540;
 
   --color-header: #f0a94e;
   --color-header-soft: #2e2410;
-  --color-payload: #b18cff;
+  --color-payload: #bb99ff;
   --color-payload-soft: #241a3a;
-  --color-sig: #59d9c4;
-  --color-sig-soft: #102a26;
+  --color-sig: #5fdcc7;
+  --color-sig-soft: #0f2a26;
 
-  --color-good: #32d878;
+  --color-good: #3fdb85;
   --color-good-soft: #0f2a1a;
-  --color-bad: #ff6961;
+  --color-bad: #ff756c;
   --color-bad-soft: #2e1414;
-  --color-warn: #f5b942;
+  --color-warn: #f7c25b;
   --color-warn-soft: #2e2410;
 
-  --shadow-card: 0 1px 2px rgba(0,0,0,0.3), 0 1px 12px rgba(0,0,0,0.3);
-  --shadow-raised: 0 4px 24px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.4);
+  --gradient-premium: linear-gradient(135deg, #f5d485 0%, #e8b84b 45%, #c9932e 100%);
+
+  --shadow-card: 0 1px 2px rgba(0,0,0,0.35), 0 1px 14px rgba(0,0,0,0.3);
+  --shadow-raised: 0 8px 32px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.4);
 }
 
 html {
@@ -104,4 +112,13 @@ body {
 .focus-ring:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
+}
+
+/* Premium gradient text — warm bronze in light theme, gold in dark.
+   Used sparingly: hero/section headings only, never body text or data. */
+.text-premium-gradient {
+  background-image: var(--gradient-premium);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }

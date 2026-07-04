@@ -48,7 +48,7 @@ export default function RsaEcKeyGen() {
                 onClick={() => setAlg(a)}
                 className={`focus-ring rounded-md px-3 py-1.5 text-[13px] font-medium transition-colors ${
                   alg === a
-                    ? "bg-[var(--color-accent)] text-white"
+                    ? "bg-[var(--color-accent-strong)] text-white"
                     : "text-[var(--color-ink-dim)] hover:text-[var(--color-ink)]"
                 }`}
               >
@@ -68,7 +68,7 @@ export default function RsaEcKeyGen() {
                 onClick={() => setFormat(f)}
                 className={`focus-ring rounded-md px-3 py-1.5 text-[13px] font-medium uppercase transition-colors ${
                   format === f
-                    ? "bg-[var(--color-accent)] text-white"
+                    ? "bg-[var(--color-accent-strong)] text-white"
                     : "text-[var(--color-ink-dim)] hover:text-[var(--color-ink)]"
                 }`}
               >
@@ -81,7 +81,7 @@ export default function RsaEcKeyGen() {
             type="button"
             onClick={handleGenerate}
             disabled={generating}
-            className="focus-ring ml-auto inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-accent)] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
+            className="focus-ring ml-auto inline-flex items-center gap-1.5 rounded-lg bg-[var(--color-accent-strong)] px-4 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
           >
             <KeyRound size={14} /> {generating ? "Generating…" : "Generate key pair"}
           </button>

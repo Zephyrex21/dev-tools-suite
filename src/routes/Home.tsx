@@ -11,7 +11,7 @@ export default function Home() {
           <ShieldCheck size={13} className="text-[var(--color-accent)]" />
           Free · Client-side · Nothing leaves your browser
         </span>
-        <h1 className="text-[34px] font-bold tracking-tight text-[var(--color-ink)] sm:text-[42px]">
+        <h1 className="text-premium-gradient text-[34px] font-bold tracking-tight sm:text-[42px]">
           All {tools.length} tools,
           <br />
           one workspace.

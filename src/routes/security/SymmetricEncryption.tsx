@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { Lock, Unlock } from "lucide-react";
+import { useRef, useState } from "react";
+import { Lock, Unlock, FileJson } from "lucide-react";
 import { ToolHeader } from "../../components/ToolHeader";
 import { Panel } from "../../components/Panel";
 import { Callout } from "../../components/Callout";
+import { DownloadButton } from "../../components/DownloadButton";
 import { aesEncrypt, aesDecrypt } from "../../lib/crypto";
 
 export default function SymmetricEncryption() {
@@ -19,6 +20,7 @@ export default function SymmetricEncryption() {
   const [saltIn, setSaltIn] = useState("");
   const [decrypted, setDecrypted] = useState("");
   const [decryptError, setDecryptError] = useState<string | undefined>();
+  const bundleInputRef = useRef<HTMLInputElement>(null);
 
   async function handleEncrypt() {
     setBusy(true);
@@ -53,6 +55,30 @@ export default function SymmetricEncryption() {
     setSaltIn(encrypted.salt);
     setMode("decrypt");
   }
+
+  function handleBundleUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(String(reader.result));
+        if (typeof parsed.ciphertext !== "string" || typeof parsed.iv !== "string" || typeof parsed.salt !== "string") {
+          throw new Error("File must contain ciphertext, iv, and salt fields.");
+        }
+        setCiphertextIn(parsed.ciphertext);
+        setIvIn(parsed.iv);
+        setSaltIn(parsed.salt);
+        setDecryptError(undefined);
+      } catch (err) {
+        setDecryptError(err instanceof Error ? err.message : "Could not read bundle file.");
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  const bundleJson = encrypted ? JSON.stringify(encrypted, null, 2) : "";
 
   return (
     <div>
@@ -107,10 +133,17 @@ export default function SymmetricEncryption() {
 
             {encrypted && (
               <>
-                <Panel label="Ciphertext (base64)" value={encrypted.ciphertext} readOnly minHeight="min-h-[100px]" />
+                <Panel label="Ciphertext (base64)" value={encrypted.ciphertext} readOnly minHeight="min-h-[100px]" showLineNumbers={false} />
                 <div className="grid gap-4 md:grid-cols-2">
-                  <Panel label="IV (base64)" value={encrypted.iv} readOnly minHeight="min-h-[70px]" />
-                  <Panel label="Salt (base64)" value={encrypted.salt} readOnly minHeight="min-h-[70px]" />
+                  <Panel label="IV (base64)" value={encrypted.iv} readOnly minHeight="min-h-[70px]" showLineNumbers={false} />
+                  <Panel label="Salt (base64)" value={encrypted.salt} readOnly minHeight="min-h-[70px]" showLineNumbers={false} />
+                </div>
+                <div className="flex items-center gap-2 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-[var(--shadow-card)]">
+                  <FileJson size={16} className="text-[var(--color-ink-dim)]" />
+                  <span className="flex-1 text-[13px] text-[var(--color-ink-dim)]">
+                    Save all three values together as one file
+                  </span>
+                  <DownloadButton value={bundleJson} filename="encrypted-bundle.json" />
                 </div>
                 <Callout tone="info">
                   IV and salt aren't secret — store them alongside the ciphertext. You'll need
@@ -124,10 +157,24 @@ export default function SymmetricEncryption() {
           </>
         ) : (
           <>
-            <Panel label="Ciphertext (base64)" value={ciphertextIn} onChange={setCiphertextIn} minHeight="min-h-[100px]" />
+            <div className="flex items-center gap-2 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-[var(--shadow-card)]">
+              <FileJson size={16} className="text-[var(--color-ink-dim)]" />
+              <span className="flex-1 text-[13px] text-[var(--color-ink-dim)]">
+                Or load a previously saved bundle file
+              </span>
+              <input ref={bundleInputRef} type="file" accept=".json" className="hidden" onChange={handleBundleUpload} />
+              <button
+                type="button"
+                onClick={() => bundleInputRef.current?.click()}
+                className="focus-ring rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-[13px] font-medium text-[var(--color-ink-dim)] transition-colors hover:border-[var(--color-border-strong)] hover:text-[var(--color-ink)]"
+              >
+                Choose file
+              </button>
+            </div>
+            <Panel label="Ciphertext (base64)" value={ciphertextIn} onChange={setCiphertextIn} minHeight="min-h-[100px]" showLineNumbers={false} />
             <div className="grid gap-4 md:grid-cols-2">
-              <Panel label="IV (base64)" value={ivIn} onChange={setIvIn} minHeight="min-h-[70px]" />
-              <Panel label="Salt (base64)" value={saltIn} onChange={setSaltIn} minHeight="min-h-[70px]" />
+              <Panel label="IV (base64)" value={ivIn} onChange={setIvIn} minHeight="min-h-[70px]" showLineNumbers={false} />
+              <Panel label="Salt (base64)" value={saltIn} onChange={setSaltIn} minHeight="min-h-[70px]" showLineNumbers={false} />
             </div>
             <button
               type="button"

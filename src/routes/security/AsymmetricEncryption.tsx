@@ -85,8 +85,8 @@ export default function AsymmetricEncryption() {
         {keyPair && (
           <>
             <div className="grid gap-4 md:grid-cols-2">
-              <Panel label="Public key" value={keyPair.publicKeyPem} readOnly minHeight="min-h-[160px]" />
-              <Panel label="Private key" value={keyPair.privateKeyPem} readOnly minHeight="min-h-[160px]" />
+              <Panel label="Public key" value={keyPair.publicKeyPem} readOnly minHeight="min-h-[160px]" downloadFilename="public-key.pem" />
+              <Panel label="Private key" value={keyPair.privateKeyPem} readOnly minHeight="min-h-[160px]" downloadFilename="private-key.pem" />
             </div>
 
             <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-[var(--shadow-card)]">

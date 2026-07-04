@@ -17,13 +17,15 @@ export default function Sort() {
     <div>
       <ToolHeader name="Sort Keys" description="Recursively sort object keys alphabetically." />
       <div className="grid gap-4 md:grid-cols-2">
-        <Panel label="Input" value={input} onChange={setInput} minHeight="min-h-[320px]" />
+        <Panel label="Input" value={input} onChange={setInput} minHeight="min-h-[320px]" language="json" />
         <Panel
           label="Sorted"
           value={result.ok ? result.value : ""}
           readOnly
           minHeight="min-h-[320px]"
           error={result.ok ? undefined : result.error}
+          language="json"
+          downloadFilename="sorted.json"
         />
       </div>
     </div>

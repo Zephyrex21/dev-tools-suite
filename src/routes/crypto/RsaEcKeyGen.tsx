@@ -7,6 +7,15 @@ import { generateSigningKeyPair, type SigningAlg, type KeyPairResult } from "../
 
 const ALGS: SigningAlg[] = ["RS256", "RS384", "RS512", "ES256", "ES384", "ES512"];
 
+const ALG_INFO: Record<SigningAlg, string> = {
+  RS256: "RSASSA-PKCS1-v1_5, 2048-bit modulus, SHA-256",
+  RS384: "RSASSA-PKCS1-v1_5, 2048-bit modulus, SHA-384",
+  RS512: "RSASSA-PKCS1-v1_5, 2048-bit modulus, SHA-512",
+  ES256: "ECDSA on curve P-256, SHA-256",
+  ES384: "ECDSA on curve P-384, SHA-384",
+  ES512: "ECDSA on curve P-521, SHA-512",
+};
+
 export default function RsaEcKeyGen() {
   const [alg, setAlg] = useState<SigningAlg>("RS256");
   const [format, setFormat] = useState<"pem" | "jwk">("pem");
@@ -87,6 +96,8 @@ export default function RsaEcKeyGen() {
           </button>
         </div>
 
+        <p className="text-[12.5px] text-[var(--color-ink-faint)]">{ALG_INFO[alg]}</p>
+
         {error && <Callout tone="bad">{error}</Callout>}
 
         {result && (
@@ -96,12 +107,16 @@ export default function RsaEcKeyGen() {
               value={format === "pem" ? result.publicKeyPem : JSON.stringify(result.publicKeyJwk, null, 2)}
               readOnly
               minHeight="min-h-[180px]"
+              language={format === "jwk" ? "json" : undefined}
+              downloadFilename={format === "pem" ? "public-key.pem" : "public-key.jwk.json"}
             />
             <Panel
               label="Private key"
               value={format === "pem" ? result.privateKeyPem : JSON.stringify(result.privateKeyJwk, null, 2)}
               readOnly
               minHeight="min-h-[220px]"
+              language={format === "jwk" ? "json" : undefined}
+              downloadFilename={format === "pem" ? "private-key.pem" : "private-key.jwk.json"}
             />
             <Callout tone="warn">
               The private key never leaves this browser tab, but treat it like any other secret —

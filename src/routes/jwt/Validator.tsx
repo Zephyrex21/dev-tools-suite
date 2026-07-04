@@ -60,12 +60,14 @@ export default function Validator() {
             value={parsed.headerError ? parsed.headerError : JSON.stringify(parsed.header, null, 2)}
             readOnly
             minHeight="min-h-[140px]"
+            language="json"
           />
           <Panel
             label="Payload"
             value={parsed.payloadError ? parsed.payloadError : JSON.stringify(parsed.payload, null, 2)}
             readOnly
             minHeight="min-h-[140px]"
+            language="json"
           />
         </div>
 

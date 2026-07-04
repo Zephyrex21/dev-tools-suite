@@ -18,14 +18,17 @@ export default function Minifier() {
       <ToolHeader name="JSON Minifier" description="Strip whitespace to shrink payload size." />
       <div className="flex flex-col gap-4">
         <div className="grid gap-4 md:grid-cols-2">
-          <Panel label="Input" value={input} onChange={setInput} minHeight="min-h-[320px]" />
+          <Panel label="Input" value={input} onChange={setInput} minHeight="min-h-[320px]" language="json" />
           <Panel
             label={result.ok ? `Minified — ${savings}% smaller` : "Minified"}
             value={result.ok ? result.value : ""}
             readOnly
             minHeight="min-h-[320px]"
             monospace
+            language="json"
+            showLineNumbers={false}
             error={result.ok ? undefined : result.error}
+            downloadFilename="minified.json"
           />
         </div>
       </div>

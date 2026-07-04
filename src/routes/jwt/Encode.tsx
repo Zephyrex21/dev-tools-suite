@@ -59,8 +59,8 @@ export default function Encode() {
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <Panel label="Header" value={headerText} onChange={setHeaderText} minHeight="min-h-[140px]" />
-          <Panel label="Payload" value={payloadText} onChange={setPayloadText} minHeight="min-h-[140px]" />
+          <Panel label="Header" value={headerText} onChange={setHeaderText} minHeight="min-h-[140px]" language="json" />
+          <Panel label="Payload" value={payloadText} onChange={setPayloadText} minHeight="min-h-[140px]" language="json" />
         </div>
 
         <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-[var(--shadow-card)]">

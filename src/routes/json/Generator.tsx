@@ -94,7 +94,7 @@ export default function Generator() {
           </button>
         </div>
 
-        <Panel label="Generated JSON" value={output} readOnly minHeight="min-h-[260px]" />
+        <Panel label="Generated JSON" value={output} readOnly minHeight="min-h-[260px]" language="json" downloadFilename="generated.json" />
       </div>
     </div>
   );

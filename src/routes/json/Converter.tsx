@@ -88,6 +88,8 @@ export default function Converter() {
             value={input}
             onChange={setInput}
             minHeight="min-h-[320px]"
+            language={direction === "toOther" ? "json" : undefined}
+            downloadFilename={direction === "toOther" ? "input.json" : `input.${format}`}
           />
           <Panel
             label={direction === "toOther" ? label : "JSON"}
@@ -95,6 +97,8 @@ export default function Converter() {
             readOnly
             minHeight="min-h-[320px]"
             error={result.ok ? undefined : result.error}
+            language={direction === "toOther" ? undefined : "json"}
+            downloadFilename={direction === "toOther" ? `output.${format}` : "output.json"}
           />
         </div>
       </div>

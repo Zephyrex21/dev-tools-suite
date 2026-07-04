@@ -24,7 +24,7 @@ export default function Editor() {
     <div>
       <ToolHeader name="Tree Editor" description="Browse JSON as a collapsible tree." />
       <div className="grid gap-4 md:grid-cols-2">
-        <Panel label="Input" value={input} onChange={setInput} minHeight="min-h-[380px]" />
+        <Panel label="Input" value={input} onChange={setInput} minHeight="min-h-[380px]" language="json" />
         <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-card)] overflow-hidden">
           <div className="border-b border-[var(--color-border)] px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-[var(--color-ink-dim)]">
             Tree

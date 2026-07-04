@@ -120,7 +120,7 @@ export default function UuidGenerator() {
           </div>
         )}
 
-        <Panel label={`${uuids.length} generated`} value={uuids.join("\n")} readOnly minHeight="min-h-[200px]" />
+        <Panel label={`${uuids.length} generated`} value={uuids.join("\n")} readOnly minHeight="min-h-[200px]" downloadFilename="uuids.txt" />
       </div>
     </div>
   );

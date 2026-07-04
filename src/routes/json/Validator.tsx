@@ -14,7 +14,7 @@ export default function Validator() {
     <div>
       <ToolHeader name="JSON Validator" description="Check JSON syntax and locate the exact error position." />
       <div className="flex flex-col gap-4">
-        <Panel label="Input" value={input} onChange={setInput} minHeight="min-h-[320px]" />
+        <Panel label="Input" value={input} onChange={setInput} minHeight="min-h-[320px]" language="json" />
         {result.valid ? (
           <Callout tone="good">Valid JSON.</Callout>
         ) : (

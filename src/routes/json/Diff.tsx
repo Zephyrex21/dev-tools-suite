@@ -29,8 +29,8 @@ export default function Diff() {
       <ToolHeader name="JSON Diff" description="Compare two JSON documents field by field." />
       <div className="flex flex-col gap-4">
         <div className="grid gap-4 md:grid-cols-2">
-          <Panel label="Left (original)" value={left} onChange={setLeft} minHeight="min-h-[220px]" />
-          <Panel label="Right (updated)" value={right} onChange={setRight} minHeight="min-h-[220px]" />
+          <Panel label="Left (original)" value={left} onChange={setLeft} minHeight="min-h-[220px]" language="json" />
+          <Panel label="Right (updated)" value={right} onChange={setRight} minHeight="min-h-[220px]" language="json" />
         </div>
 
         {!diff.ok ? (

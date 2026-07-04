@@ -96,6 +96,10 @@ function md5Bytes(message: Uint8Array): Uint8Array {
 }
 
 export function md5(text: string): string {
-  const bytes = md5Bytes(new TextEncoder().encode(text));
-  return Array.from(bytes).map((b) => b.toString(16).padStart(2, "0")).join("");
+  return md5Hex(new TextEncoder().encode(text));
+}
+
+export function md5Hex(bytes: Uint8Array): string {
+  const digest = md5Bytes(bytes);
+  return Array.from(digest).map((b) => b.toString(16).padStart(2, "0")).join("");
 }

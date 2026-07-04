@@ -77,7 +77,7 @@ export default function ApiKeyGen() {
           </button>
         </div>
 
-        <Panel label="API Key" value={key} readOnly minHeight="min-h-[80px]" />
+        <Panel label="API Key" value={key} readOnly minHeight="min-h-[80px]" showLineNumbers={false} downloadFilename="api-key.txt" />
       </div>
     </div>
   );

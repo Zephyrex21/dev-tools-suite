@@ -28,8 +28,8 @@ export default function Schema() {
       <ToolHeader name="JSON Schema Validator" description="Validate a JSON document against a JSON Schema." />
       <div className="flex flex-col gap-4">
         <div className="grid gap-4 md:grid-cols-2">
-          <Panel label="Data" value={data} onChange={setData} minHeight="min-h-[260px]" />
-          <Panel label="Schema" value={schema} onChange={setSchema} minHeight="min-h-[260px]" />
+          <Panel label="Data" value={data} onChange={setData} minHeight="min-h-[260px]" language="json" />
+          <Panel label="Schema" value={schema} onChange={setSchema} minHeight="min-h-[260px]" language="json" />
         </div>
         {result.ok ? (
           <Callout tone="good">{result.value}</Callout>

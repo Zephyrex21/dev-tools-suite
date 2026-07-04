@@ -60,8 +60,8 @@ export default function SecretGenerator() {
           </button>
         </div>
 
-        <Panel label="Base64URL (recommended)" value={base64url} readOnly minHeight="min-h-[80px]" />
-        <Panel label="Hex" value={hex} readOnly minHeight="min-h-[80px]" />
+        <Panel label="Base64URL (recommended)" value={base64url} readOnly minHeight="min-h-[80px]" showLineNumbers={false} downloadFilename="jwt-secret.base64url.txt" />
+        <Panel label="Hex" value={hex} readOnly minHeight="min-h-[80px]" showLineNumbers={false} downloadFilename="jwt-secret.hex.txt" />
 
         <p className="text-[13px] leading-relaxed text-[var(--color-ink-dim)]">
           Generated with the Web Crypto API's CSPRNG, entirely on your device. Store this secret

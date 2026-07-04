@@ -1,4 +1,4 @@
-import { md5 } from "./md5";
+import { md5Hex } from "./md5";
 import { toPem, fromPem } from "./pem";
 
 // ---- Random key / API key generation ----
@@ -42,11 +42,14 @@ export function generateApiKey({ prefix = "", length, charset }: ApiKeyOptions):
 
 export type HashAlgo = "MD5" | "SHA-1" | "SHA-256" | "SHA-384" | "SHA-512";
 
-export async function hashText(text: string, algo: HashAlgo): Promise<string> {
-  if (algo === "MD5") return md5(text);
-  const data = new TextEncoder().encode(text);
-  const digest = await crypto.subtle.digest(algo, data);
+export async function hashBytes(bytes: ArrayBuffer, algo: HashAlgo): Promise<string> {
+  if (algo === "MD5") return md5Hex(new Uint8Array(bytes));
+  const digest = await crypto.subtle.digest(algo, bytes);
   return toHex(new Uint8Array(digest));
+}
+
+export async function hashText(text: string, algo: HashAlgo): Promise<string> {
+  return hashBytes(new TextEncoder().encode(text).buffer as ArrayBuffer, algo);
 }
 
 // ---- AES-GCM symmetric encryption (passphrase-based, PBKDF2) ----

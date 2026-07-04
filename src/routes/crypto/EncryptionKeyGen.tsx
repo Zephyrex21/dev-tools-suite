@@ -47,8 +47,8 @@ export default function EncryptionKeyGen() {
           </button>
         </div>
 
-        <Panel label="Base64" value={key?.base64 ?? ""} readOnly minHeight="min-h-[80px]" />
-        <Panel label="Hex" value={key?.hex ?? ""} readOnly minHeight="min-h-[80px]" />
+        <Panel label="Base64" value={key?.base64 ?? ""} readOnly minHeight="min-h-[80px]" showLineNumbers={false} downloadFilename="aes-key.base64.txt" />
+        <Panel label="Hex" value={key?.hex ?? ""} readOnly minHeight="min-h-[80px]" showLineNumbers={false} downloadFilename="aes-key.hex.txt" />
 
         <p className="text-[13px] leading-relaxed text-[var(--color-ink-dim)]">
           Generated with the Web Crypto CSPRNG. Use this as a raw AES-GCM key — for a

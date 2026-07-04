@@ -55,6 +55,7 @@ export default function Formatter() {
             readOnly
             minHeight="min-h-[220px]"
             error={parsed.headerError}
+            language="json"
           />
           <Panel
             label="Payload (decoded)"
@@ -62,6 +63,8 @@ export default function Formatter() {
             readOnly
             minHeight="min-h-[220px]"
             error={parsed.payloadError}
+            language="json"
+            downloadFilename="payload.json"
           />
         </div>
       </div>

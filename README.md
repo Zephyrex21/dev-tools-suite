@@ -12,6 +12,9 @@ Nothing you type is ever sent anywhere — every tool runs entirely in your brow
 ![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)
 ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)
+[![CI](https://github.com/Zephyrex21/dev-tools-suite/actions/workflows/ci.yml/badge.svg)](https://github.com/Zephyrex21/dev-tools-suite/actions/workflows/ci.yml)
+
+**[Live demo →](https://dev-tools-suite-xi.vercel.app/)**
 
 </div>
 
@@ -149,10 +152,13 @@ npm run dev       # http://localhost:5173
 ```bash
 npm run build      # production build -> dist/
 npm run preview    # serve the production build locally
+npm run test        # run the Vitest suite (80+ tests, lib/ logic)
 npm run lint        # oxlint
 ```
 
-No environment variables, no API keys, no backend to configure.
+No environment variables, no API keys, no backend to configure. CI (GitHub
+Actions) runs lint, type-check + build, and the full test suite on every
+push and pull request.
 
 ## Deploy
 
@@ -172,6 +178,7 @@ src/
   hooks/         useTheme (light/dark persistence)
   lib/           jwt.ts, json.ts, crypto.ts, md5.ts, password.ts, uuidgen.ts,
                  encoding.ts, jsonHighlight.ts — pure logic, no UI
+  lib/__tests__/ Vitest suite for everything in lib/
   routes/
     Landing.tsx  Marketing homepage
     Home.tsx     In-app tool dashboard
@@ -183,6 +190,8 @@ src/
     encoding/    3 tools
     resources/   3 tools
   App.tsx        Router config, lazy-loaded per route
+vercel.json      SPA rewrite rule (required for direct links to any tool)
+.github/workflows/ci.yml   Lint + build + test on push/PR
 ```
 
 Every tool is one route component + one pure logic module in `lib/`. Adding a
@@ -190,14 +199,24 @@ new tool means: a function in `lib/`, a route component, one entry in
 `lib/tools.ts` (powers the sidebar, dashboard, command palette, and search),
 and one line in `App.tsx`.
 
-## A note on correctness
+## Testing
 
-Every transformation in `lib/` — JWT encode/verify, JSON conversions, AES/RSA
-encryption, hashing, password entropy — was checked against real test
-vectors (Node's own `crypto` module, RFC test vectors, or manual round-trips)
-before shipping, not just eyeballed. Worth doing again after touching
-anything in `lib/`: a broken sample token or a silently wrong conversion is
-easy to miss by looking at the UI alone.
+`src/lib/` — the pure logic layer with no UI — has an 80+ test Vitest suite
+covering every module: JWT encode/verify/fuzz, JSON conversions and
+round-trips, AES/RSA encryption, hashing (including a from-scratch MD5
+checked against Node's `crypto` module across every block-padding edge
+case), password entropy math, UUID generation against RFC test vectors, and
+the JSON syntax tokenizer. Known test vectors are pulled from Node's own
+`crypto` module or published RFCs, not hand-typed from memory — several
+early drafts of these tests had hand-typed vectors that were themselves
+wrong, which is exactly the failure mode this approach avoids.
+
+```bash
+npm run test
+```
+
+CI runs this suite, lint, and a full build on every push and PR — see
+`.github/workflows/ci.yml`.
 
 ## License
 

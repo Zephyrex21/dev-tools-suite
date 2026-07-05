@@ -5,6 +5,7 @@ import { categoryIcons } from "../lib/categoryIcons";
 import { siteConfig } from "../lib/siteConfig";
 import { LandingNav } from "../components/LandingNav";
 import { FaqItem } from "../components/FaqItem";
+import { TokenStrip } from "../components/TokenStrip";
 
 const valueProps = [
   { icon: ShieldCheck, title: "100% free", desc: "No tiers, no paywalls, no \"pro\" version." },
@@ -46,21 +47,26 @@ export default function Landing() {
       <LandingNav />
 
       {/* Hero */}
-      <section className="mx-auto max-w-5xl px-4 pb-20 pt-20 text-center md:px-6 md:pt-28">
-        <span className="mb-6 inline-flex items-center gap-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1 text-[12px] font-medium text-[var(--color-ink-dim)]">
+      <section className="relative mx-auto max-w-5xl px-4 pb-8 pt-20 text-center md:px-6 md:pt-28 overflow-hidden">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[720px] -translate-x-1/2 -translate-y-1/3 rounded-full opacity-[0.15] blur-3xl"
+          style={{ backgroundImage: "var(--gradient-premium)" }}
+        />
+        <span className="relative mb-6 inline-flex items-center gap-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1 text-[12px] font-medium text-[var(--color-ink-dim)]">
           <ShieldCheck size={13} className="text-[var(--color-accent)]" />
           Free · Client-side · {tools.length} tools
         </span>
-        <h1 className="text-balance text-premium-gradient text-[40px] font-bold leading-[1.1] tracking-tight sm:text-[56px]">
+        <h1 className="relative text-balance text-premium-gradient text-[40px] font-bold leading-[1.1] tracking-tight sm:text-[56px]">
           Developer tools,
           <br />
           without the tab hoarding.
         </h1>
-        <p className="mx-auto mt-5 max-w-xl text-balance text-[17px] leading-relaxed text-[var(--color-ink-dim)]">
+        <p className="relative mx-auto mt-5 max-w-xl text-balance text-[17px] leading-relaxed text-[var(--color-ink-dim)]">
           JWT, JSON, cryptography, and encoding utilities — in one clean, fast workspace.
           Every tool runs entirely on your device.
         </p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <div className="relative mt-8 flex flex-wrap items-center justify-center gap-3">
           <Link
             to="/app"
             className="focus-ring inline-flex items-center gap-1.5 rounded-full bg-[var(--color-accent-strong)] px-5 py-2.5 text-[14px] font-semibold text-white shadow-[0_1px_2px_rgba(0,0,0,0.08)] transition-opacity hover:opacity-90"
@@ -77,6 +83,24 @@ export default function Landing() {
           >
             See what's inside
           </a>
+        </div>
+
+        <div className="relative mx-auto mt-14 max-w-2xl text-left">
+          <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-2 shadow-[var(--shadow-raised)]">
+            <div className="flex items-center gap-1.5 px-3 py-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-[var(--color-bad)]/60" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[var(--color-warn)]/60" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[var(--color-good)]/60" />
+              <span className="ml-2 text-[11px] text-[var(--color-ink-faint)]">JWT Validator</span>
+            </div>
+            <div className="px-3 pb-3">
+              <TokenStrip
+                headerRaw="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+                payloadRaw="eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFkYSBMb3ZlbGFjZSJ9"
+                signatureRaw="nmm0qepYRjhNji3O-jq8Pvcr7l_me1_bomw4EJucQCU"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -156,25 +180,52 @@ export default function Landing() {
 
       {/* Footer */}
       <footer className="border-t border-[var(--color-border)]">
-        <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 px-4 py-10 text-center md:flex-row md:justify-between md:text-left">
-          <div className="flex items-center gap-2">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--color-accent-strong)] text-white">
-              <ShieldCheck size={14} />
-            </span>
-            <span className="text-[14px] font-semibold text-[var(--color-ink)]">{siteConfig.name}</span>
+        <div className="mx-auto max-w-5xl px-4 py-10 md:px-6">
+          <div className="flex flex-col items-center gap-6 md:flex-row md:justify-between">
+            <div className="flex items-center gap-2">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--color-accent-strong)] text-white">
+                <ShieldCheck size={14} />
+              </span>
+              <span className="text-[14px] font-semibold text-[var(--color-ink)]">{siteConfig.name}</span>
+            </div>
+
+            <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[13px]">
+              <a
+                href="#features"
+                onClick={(e) => { e.preventDefault(); document.getElementById("features")?.scrollIntoView({ behavior: "smooth" }); }}
+                className="text-[var(--color-ink-dim)] hover:text-[var(--color-ink)]"
+              >
+                Features
+              </a>
+              <a
+                href="#faq"
+                onClick={(e) => { e.preventDefault(); document.getElementById("faq")?.scrollIntoView({ behavior: "smooth" }); }}
+                className="text-[var(--color-ink-dim)] hover:text-[var(--color-ink)]"
+              >
+                FAQ
+              </a>
+              <Link to="/app" className="text-[var(--color-ink-dim)] hover:text-[var(--color-ink)]">
+                Launch App
+              </Link>
+            </nav>
           </div>
-          <p className="text-[12.5px] text-[var(--color-ink-faint)]">
-            Built by{" "}
-            <a
-              href={siteConfig.authorUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-0.5 font-medium text-[var(--color-ink-dim)] hover:text-[var(--color-accent)]"
-            >
-              {siteConfig.authorName} <ArrowUpRight size={11} />
-            </a>{" "}
-            · Free forever · Runs entirely in your browser
-          </p>
+
+          <div className="mt-6 flex flex-col items-center gap-2 border-t border-[var(--color-border)] pt-6 text-center md:flex-row md:justify-between md:text-left">
+            <p className="text-[12.5px] text-[var(--color-ink-faint)]">
+              © {new Date().getFullYear()} {siteConfig.name} · Free forever · Runs entirely in your browser
+            </p>
+            <p className="text-[12.5px] text-[var(--color-ink-faint)]">
+              Built by{" "}
+              <a
+                href={siteConfig.authorUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-0.5 font-medium text-[var(--color-ink-dim)] hover:text-[var(--color-accent)]"
+              >
+                {siteConfig.authorName} <ArrowUpRight size={11} />
+              </a>
+            </p>
+          </div>
         </div>
       </footer>
     </div>

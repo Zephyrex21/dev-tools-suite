@@ -10,16 +10,23 @@ export default function LoremIpsum() {
   const [unit, setUnit] = useState<LoremUnit>("paragraphs");
   const [count, setCount] = useState(3);
   const [startWithLorem, setStartWithLorem] = useState(true);
-  const [output, setOutput] = useState("");
+  const [asHtml, setAsHtml] = useState(false);
+  const [rawOutput, setRawOutput] = useState("");
 
   function regenerate() {
-    setOutput(generateLorem(unit, count, startWithLorem));
+    setRawOutput(generateLorem(unit, count, startWithLorem));
   }
 
   useEffect(() => {
     regenerate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unit, count, startWithLorem]);
+
+  const output = asHtml
+    ? unit === "paragraphs"
+      ? rawOutput.split("\n\n").map((p) => `<p>${p}</p>`).join("\n")
+      : `<p>${rawOutput}</p>`
+    : rawOutput;
 
   return (
     <div>
@@ -56,6 +63,10 @@ export default function LoremIpsum() {
               <input type="checkbox" checked={startWithLorem} onChange={(e) => setStartWithLorem(e.target.checked)} className="h-4 w-4 accent-[var(--color-accent)]" />
               Start with "Lorem ipsum…"
             </label>
+            <label className="flex items-center gap-2 text-[13px] text-[var(--color-ink-dim)]">
+              <input type="checkbox" checked={asHtml} onChange={(e) => setAsHtml(e.target.checked)} className="h-4 w-4 accent-[var(--color-accent)]" />
+              Wrap in &lt;p&gt; tags
+            </label>
             <button
               type="button"
               onClick={regenerate}
@@ -66,7 +77,7 @@ export default function LoremIpsum() {
           </div>
         </div>
 
-        <Panel label="Output" value={output} readOnly minHeight="min-h-[280px]" monospace={false} />
+        <Panel label="Output" value={output} readOnly minHeight="min-h-[280px]" monospace={false} downloadFilename={asHtml ? "lorem.html" : "lorem.txt"} />
       </div>
     </div>
   );

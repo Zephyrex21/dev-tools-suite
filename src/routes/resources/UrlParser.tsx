@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { ToolHeader } from "../../components/ToolHeader";
 import { Panel } from "../../components/Panel";
 import { Callout } from "../../components/Callout";
+import { DownloadButton } from "../../components/DownloadButton";
 import { parseUrl } from "../../lib/encoding";
 
 const SAMPLE = "https://user:pass@example.com:8443/products/search?q=hello+world&category=books&sort=asc#results";
@@ -35,8 +36,11 @@ export default function UrlParser() {
         ) : (
           <>
             <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-card)] overflow-hidden">
-              <div className="border-b border-[var(--color-border)] px-4 py-2.5 text-xs font-semibold uppercase tracking-wide text-[var(--color-ink-dim)]">
-                Components
+              <div className="flex items-center justify-between border-b border-[var(--color-border)] px-4 py-2.5">
+                <span className="text-xs font-semibold uppercase tracking-wide text-[var(--color-ink-dim)]">
+                  Components
+                </span>
+                <DownloadButton value={JSON.stringify(result.value, null, 2)} filename="url-components.json" />
               </div>
               <div className="divide-y divide-[var(--color-border)]">
                 {rows.map(([label, value]) => (

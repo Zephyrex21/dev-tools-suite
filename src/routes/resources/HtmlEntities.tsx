@@ -34,7 +34,7 @@ export default function HtmlEntities() {
 
         <div className="grid gap-4 md:grid-cols-2">
           <Panel label={mode === "encode" ? "Text / HTML" : "Encoded"} value={input} onChange={setInput} minHeight="min-h-[140px]" />
-          <Panel label={mode === "encode" ? "Encoded" : "Decoded"} value={output} readOnly minHeight="min-h-[140px]" />
+          <Panel label={mode === "encode" ? "Encoded" : "Decoded"} value={output} readOnly minHeight="min-h-[140px]" downloadFilename={mode === "encode" ? "encoded.html" : "decoded.txt"} />
         </div>
 
         <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-card)] overflow-hidden">

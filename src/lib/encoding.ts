@@ -3,21 +3,53 @@ export type Result<T> = { ok: true; value: T } | { ok: false; error: string };
 // ---- Base64 ----
 
 export function base64Encode(text: string): string {
-  const bytes = new TextEncoder().encode(text);
+  return bytesToBase64(new TextEncoder().encode(text));
+}
+
+export function bytesToBase64(bytes: Uint8Array): string {
   let binary = "";
   for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
   return btoa(binary);
 }
 
 export function base64Decode(text: string): Result<string> {
+  const bytes = base64DecodeBytes(text);
+  if (!bytes.ok) return bytes;
   try {
-    const binary = atob(text.trim());
+    return { ok: true, value: new TextDecoder("utf-8", { fatal: true }).decode(bytes.value) };
+  } catch {
+    return { ok: false, error: "Decoded successfully, but the result isn't valid UTF-8 text — this may be a binary file or image. Try the image preview below." };
+  }
+}
+
+export function base64DecodeBytes(text: string): Result<Uint8Array> {
+  try {
+    const cleaned = text.trim().replace(/^data:[^;]+;base64,/, "");
+    const binary = atob(cleaned);
     const bytes = new Uint8Array(binary.length);
     for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-    return { ok: true, value: new TextDecoder().decode(bytes) };
+    return { ok: true, value: bytes };
   } catch {
     return { ok: false, error: "Invalid Base64 input." };
   }
+}
+
+const IMAGE_SIGNATURES: { mime: string; check: (b: Uint8Array) => boolean }[] = [
+  { mime: "image/png", check: (b) => b.length > 8 && b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47 },
+  { mime: "image/jpeg", check: (b) => b.length > 3 && b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff },
+  { mime: "image/gif", check: (b) => b.length > 6 && b[0] === 0x47 && b[1] === 0x49 && b[2] === 0x46 },
+  {
+    mime: "image/webp",
+    check: (b) =>
+      b.length > 12 &&
+      b[0] === 0x52 && b[1] === 0x49 && b[2] === 0x46 && b[3] === 0x46 &&
+      b[8] === 0x57 && b[9] === 0x45 && b[10] === 0x42 && b[11] === 0x50,
+  },
+];
+
+/** Sniffs magic bytes to detect common image formats — returns a MIME type, or null if not a recognized image. */
+export function detectImageMime(bytes: Uint8Array): string | null {
+  return IMAGE_SIGNATURES.find((sig) => sig.check(bytes))?.mime ?? null;
 }
 
 // ---- URL encoding ----

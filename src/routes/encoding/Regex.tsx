@@ -11,6 +11,16 @@ const FLAG_OPTIONS = [
   { flag: "s", label: "Dotall" },
 ] as const;
 
+const COMMON_PATTERNS = [
+  { name: "Email", pattern: "\\b[\\w.%+-]+@[\\w.-]+\\.[A-Za-z]{2,}\\b" },
+  { name: "URL", pattern: "https?:\\/\\/[^\\s]+" },
+  { name: "IPv4", pattern: "\\b(?:(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d?\\d)\\b" },
+  { name: "Hex color", pattern: "#(?:[0-9a-fA-F]{3}){1,2}\\b" },
+  { name: "Phone (US)", pattern: "\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}" },
+  { name: "ISO date", pattern: "\\d{4}-\\d{2}-\\d{2}" },
+  { name: "UUID", pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" },
+] as const;
+
 function highlight(text: string, matches: { match: string; index: number }[]) {
   if (matches.length === 0) return [text];
   const parts: (string | { match: string })[] = [];
@@ -43,6 +53,19 @@ export default function Regex() {
     <div>
       <ToolHeader name="Regex Tester" description="Test a regular expression against sample text with live match highlighting." />
       <div className="flex flex-col gap-4">
+        <div className="flex flex-wrap gap-1.5">
+          {COMMON_PATTERNS.map((p) => (
+            <button
+              key={p.name}
+              type="button"
+              onClick={() => setPattern(p.pattern)}
+              className="focus-ring rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1 text-[12px] font-medium text-[var(--color-ink-dim)] transition-colors hover:border-[var(--color-border-strong)] hover:text-[var(--color-ink)]"
+            >
+              {p.name}
+            </button>
+          ))}
+        </div>
+
         <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-[var(--shadow-card)]">
           <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-[var(--color-ink-dim)]">
             Pattern

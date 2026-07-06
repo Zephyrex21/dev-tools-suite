@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/Layout";
+import { GlobalErrorBanner } from "./components/GlobalErrorBanner";
 import Landing from "./routes/Landing";
 import Home from "./routes/Home";
 
@@ -52,6 +53,7 @@ function RouteFallback() {
 export default function App() {
   return (
     <BrowserRouter>
+      <GlobalErrorBanner />
       <Suspense fallback={<RouteFallback />}>
         <Routes>
           <Route path="/" element={<Landing />} />

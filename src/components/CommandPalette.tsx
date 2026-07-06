@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, ArrowRight, CornerDownLeft } from "lucide-react";
 import { categories, tools, type ToolMeta } from "../lib/tools";
+import { useFocusTrap } from "../hooks/useFocusTrap";
 
 const categoryLabel = Object.fromEntries(categories.map((c) => [c.id, c.label]));
 
@@ -22,7 +23,10 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
+  useFocusTrap(containerRef, open);
 
   const results = useMemo(() => {
     return tools
@@ -69,14 +73,20 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose: () =
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-[12vh]">
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-raised)]">
+      <div
+        ref={containerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Search tools"
+        onKeyDown={handleKeyDown}
+        className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] shadow-[var(--shadow-raised)]"
+      >
         <div className="flex items-center gap-2.5 border-b border-[var(--color-border)] px-4 py-3">
           <Search size={16} className="shrink-0 text-[var(--color-ink-faint)]" />
           <input
             ref={inputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
             placeholder="Search tools…"
             className="focus-ring w-full bg-transparent text-[14px] text-[var(--color-ink)] placeholder:text-[var(--color-ink-faint)]"
           />

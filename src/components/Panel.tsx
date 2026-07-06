@@ -87,6 +87,7 @@ export function Panel({
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 title="Upload a file"
+                aria-label="Upload a file"
                 className="focus-ring inline-flex items-center gap-1.5 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-xs font-medium text-[var(--color-ink-dim)] transition-colors hover:border-[var(--color-border-strong)] hover:text-[var(--color-ink)]"
               >
                 <UploadCloud size={13} />

@@ -35,6 +35,8 @@ function TreeNode({ label, value, depth }: { label: string; value: unknown; dept
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        aria-label={`${isArray ? "Array" : "Object"} ${label}, ${entries.length} items`}
         className="focus-ring flex w-full items-center gap-1 rounded py-0.5 font-mono text-[13px] hover:bg-[var(--color-surface-2)]"
         style={{ paddingLeft: depth * 16 }}
       >

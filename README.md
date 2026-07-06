@@ -218,6 +218,19 @@ npm run test
 CI runs this suite, lint, and a full build on every push and PR — see
 `.github/workflows/ci.yml`.
 
+## Accessibility & error visibility
+
+- Skip-to-content link, focus-trapped modals (command palette, mobile
+  navigation drawer) with focus restored to the trigger on close, and
+  `aria-expanded` on every disclosure widget (sidebar accordion, JSON tree).
+- If a tool crashes, an error boundary (scoped per-route, so one tool
+  crashing doesn't take down the rest of the app) shows what happened with a
+  one-click "Report on GitHub" link — pre-filled with the error, route, and
+  browser info, no auto-collection or third-party analytics involved.
+- A lightweight global listener catches errors an error boundary structurally
+  can't (uncaught promise rejections in event handlers) and surfaces the
+  same reporting option via a dismissible banner instead of failing silently.
+
 ## License
 
 [MIT](LICENSE) — do whatever you want with it.

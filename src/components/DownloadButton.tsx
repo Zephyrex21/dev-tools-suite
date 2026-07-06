@@ -20,6 +20,7 @@ export function DownloadButton({ value, filename }: { value: string; filename: s
       onClick={handleDownload}
       disabled={!value}
       title="Download as file"
+      aria-label="Download as file"
       className="focus-ring inline-flex items-center gap-1.5 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-xs font-medium text-[var(--color-ink-dim)] transition-colors hover:border-[var(--color-border-strong)] hover:text-[var(--color-ink)] disabled:opacity-40 disabled:cursor-not-allowed"
     >
       <Download size={13} />

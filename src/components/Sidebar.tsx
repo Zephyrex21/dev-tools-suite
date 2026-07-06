@@ -38,6 +38,7 @@ export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
             <button
               type="button"
               onClick={() => toggle(cat.id)}
+              aria-expanded={isOpen}
               className="focus-ring flex w-full items-center justify-between rounded-lg px-3 py-2 text-left"
             >
               <span className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-[var(--color-ink-faint)]">

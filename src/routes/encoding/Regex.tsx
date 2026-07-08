@@ -1,8 +1,10 @@
-import { useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Loader2 } from "lucide-react";
 import { ToolHeader } from "../../components/ToolHeader";
 import { Panel } from "../../components/Panel";
 import { Callout } from "../../components/Callout";
-import { testRegex } from "../../lib/encoding";
+import { useRegexWorker } from "../../hooks/useRegexWorker";
+import type { RegexMatch, Result } from "../../lib/encoding";
 
 const FLAG_OPTIONS = [
   { flag: "g", label: "Global" },
@@ -34,16 +36,32 @@ function highlight(text: string, matches: { match: string; index: number }[]) {
   return parts;
 }
 
+const DEBOUNCE_MS = 300;
+
 export default function Regex() {
   const [pattern, setPattern] = useState("\\b\\w+@\\w+\\.\\w+\\b");
   const [flags, setFlags] = useState("gi");
   const [text, setText] = useState("Contact ada@example.com or alan.turing@bletchley.ac.uk for details.");
 
-  const result = useMemo(() => testRegex(pattern, flags, text), [pattern, flags, text]);
-  const parts = useMemo(
-    () => (result.ok ? highlight(text, result.value.matches) : [text]),
-    [result, text],
-  );
+  const [result, setResult] = useState<Result<{ matches: RegexMatch[]; isMatch: boolean }> | null>(null);
+  const [testing, setTesting] = useState(false);
+  const runRegex = useRegexWorker();
+  const generationRef = useRef(0);
+
+  useEffect(() => {
+    const generation = ++generationRef.current;
+    setTesting(true);
+    const timer = setTimeout(async () => {
+      const r = await runRegex(pattern, flags, text);
+      if (generation === generationRef.current) {
+        setResult(r);
+        setTesting(false);
+      }
+    }, DEBOUNCE_MS);
+    return () => clearTimeout(timer);
+  }, [pattern, flags, text, runRegex]);
+
+  const parts = result?.ok ? highlight(text, result.value.matches) : [text];
 
   function toggleFlag(f: string) {
     setFlags((cur) => (cur.includes(f) ? cur.replace(f, "") : cur + f));
@@ -79,6 +97,7 @@ export default function Regex() {
               className="focus-ring w-full bg-transparent font-mono text-[13px] text-[var(--color-ink)]"
             />
             <span className="font-mono text-[13px] text-[var(--color-ink-faint)]">/{flags}</span>
+            {testing && <Loader2 size={14} className="shrink-0 animate-spin text-[var(--color-ink-faint)]" />}
           </div>
           <div className="mt-2.5 flex flex-wrap gap-3">
             {FLAG_OPTIONS.map((f) => (
@@ -97,9 +116,9 @@ export default function Regex() {
 
         <Panel label="Test string" value={text} onChange={setText} minHeight="min-h-[140px]" monospace={false} />
 
-        {!result.ok ? (
+        {result && !result.ok ? (
           <Callout tone="bad">{result.error}</Callout>
-        ) : (
+        ) : result?.ok ? (
           <>
             <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 shadow-[var(--shadow-card)]">
               <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--color-ink-dim)]">
@@ -137,7 +156,7 @@ export default function Regex() {
               </div>
             )}
           </>
-        )}
+        ) : null}
       </div>
     </div>
   );

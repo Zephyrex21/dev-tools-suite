@@ -128,7 +128,7 @@ export function Panel({
       )}
 
       {error && (
-        <div className="border-t border-[var(--color-bad)]/20 bg-[var(--color-bad-soft)] px-4 py-2 text-xs text-[var(--color-bad)]">
+        <div role="alert" className="border-t border-[var(--color-bad)]/20 bg-[var(--color-bad-soft)] px-4 py-2 text-xs text-[var(--color-bad)]">
           {error}
         </div>
       )}

@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, AlertTriangle } from "lucide-react";
+
+// Real-world JSON essentially never nests this deep (even deeply-structured
+// API responses rarely exceed 15-20 levels) — this exists purely as a safety
+// ceiling. JSON.parse itself can handle far deeper input than this without
+// erroring, but recursively rendering a React component tree that deep can
+// exhaust the call stack well before parsing does, since each render level
+// costs far more stack space than a bare function call.
+const MAX_RENDER_DEPTH = 80;
 
 function valueColor(v: unknown): string {
   if (v === null) return "var(--color-ink-faint)";
@@ -20,6 +28,18 @@ function TreeNode({ label, value, depth }: { label: string; value: unknown; dept
   const isObject = value !== null && typeof value === "object";
   const isArray = Array.isArray(value);
   const entries = isObject ? Object.entries(value as Record<string, unknown>) : [];
+
+  if (depth >= MAX_RENDER_DEPTH && isObject) {
+    return (
+      <div
+        className="flex items-center gap-1.5 py-0.5 font-mono text-[13px] text-[var(--color-warn)]"
+        style={{ paddingLeft: depth * 16 }}
+      >
+        <AlertTriangle size={12} className="shrink-0" />
+        <span>{label}: too deeply nested to display further ({entries.length} items truncated)</span>
+      </div>
+    );
+  }
 
   if (!isObject) {
     return (

@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { FileText, Type, UploadCloud, X } from "lucide-react";
+import { FileText, Type, UploadCloud, X, AlertTriangle } from "lucide-react";
 import { ToolHeader } from "../../components/ToolHeader";
 import { Panel } from "../../components/Panel";
 import { CopyButton } from "../../components/CopyButton";
-import { hashText, hashBytes, type HashAlgo } from "../../lib/crypto";
+import { useHashWorker } from "../../hooks/useHashWorker";
+import type { HashAlgo } from "../../lib/crypto";
 
 const ALGOS: HashAlgo[] = ["MD5", "SHA-1", "SHA-256", "SHA-384", "SHA-512"];
+const LARGE_FILE_WARNING_BYTES = 150 * 1024 * 1024; // 150 MB
 
 const emptyHashes: Record<HashAlgo, string> = {
   MD5: "",
@@ -30,32 +32,45 @@ export default function HashGenerator() {
   const [hashing, setHashing] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const runHash = useHashWorker();
+  const generationRef = useRef(0);
 
   useEffect(() => {
     if (mode !== "text") return;
-    let cancelled = false;
-    (async () => {
-      const entries = await Promise.all(ALGOS.map(async (a) => [a, await hashText(input, a)] as const));
-      if (!cancelled) setHashes(Object.fromEntries(entries) as Record<HashAlgo, string>);
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [input, mode]);
+    const generation = ++generationRef.current;
+    setHashing(true);
+    const timer = setTimeout(async () => {
+      // Hashed off the main thread — a large pasted block of text (or the
+      // hand-written MD5 loop specifically) would otherwise freeze the tab
+      // for however long the computation takes.
+      const buffer = new TextEncoder().encode(input).buffer as ArrayBuffer;
+      const results = await runHash(buffer, ALGOS);
+      if (generation === generationRef.current) {
+        setHashes({ ...emptyHashes, ...results });
+        setHashing(false);
+      }
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [input, mode, runHash]);
 
   async function hashFile(f: File) {
+    const generation = ++generationRef.current;
     setFile(f);
     setHashing(true);
     setHashes(emptyHashes);
     const buffer = await f.arrayBuffer();
-    const entries = await Promise.all(ALGOS.map(async (a) => [a, await hashBytes(buffer, a)] as const));
-    setHashes(Object.fromEntries(entries) as Record<HashAlgo, string>);
-    setHashing(false);
+    const results = await runHash(buffer, ALGOS);
+    if (generation === generationRef.current) {
+      setHashes({ ...emptyHashes, ...results });
+      setHashing(false);
+    }
   }
 
   function clearFile() {
+    generationRef.current++;
     setFile(null);
     setHashes(emptyHashes);
+    setHashing(false);
   }
 
   function switchMode(m: "text" | "file") {
@@ -115,14 +130,24 @@ export default function HashGenerator() {
               }}
             />
             {file ? (
-              <div className="flex w-full items-center justify-between gap-3 rounded-lg bg-[var(--color-surface-2)] px-4 py-2.5 text-left">
-                <div className="min-w-0">
-                  <div className="truncate text-[13.5px] font-medium text-[var(--color-ink)]">{file.name}</div>
-                  <div className="text-[12px] text-[var(--color-ink-dim)]">{formatBytes(file.size)}</div>
+              <div className="flex w-full flex-col gap-2">
+                <div className="flex w-full items-center justify-between gap-3 rounded-lg bg-[var(--color-surface-2)] px-4 py-2.5 text-left">
+                  <div className="min-w-0">
+                    <div className="truncate text-[13.5px] font-medium text-[var(--color-ink)]">{file.name}</div>
+                    <div className="text-[12px] text-[var(--color-ink-dim)]">{formatBytes(file.size)}</div>
+                  </div>
+                  <button type="button" onClick={clearFile} className="focus-ring shrink-0 rounded-lg p-1.5 text-[var(--color-ink-faint)] hover:text-[var(--color-bad)]">
+                    <X size={14} />
+                  </button>
                 </div>
-                <button type="button" onClick={clearFile} className="focus-ring shrink-0 rounded-lg p-1.5 text-[var(--color-ink-faint)] hover:text-[var(--color-bad)]">
-                  <X size={14} />
-                </button>
+                {file.size > LARGE_FILE_WARNING_BYTES && (
+                  <div className="flex items-center gap-2 rounded-lg bg-[var(--color-warn-soft)] px-3 py-2 text-left text-[12px] text-[var(--color-warn)]">
+                    <AlertTriangle size={13} className="shrink-0" />
+                    Large file — this may take a while and use significant memory. The page will
+                    stay responsive while it works (hashing runs on a background thread), but very
+                    large files can still take a long time.
+                  </div>
+                )}
               </div>
             ) : (
               <>

@@ -201,15 +201,20 @@ and one line in `App.tsx`.
 
 ## Testing
 
-`src/lib/` — the pure logic layer with no UI — has an 80+ test Vitest suite
+`src/lib/` — the pure logic layer with no UI — has a 92-test Vitest suite
 covering every module: JWT encode/verify/fuzz, JSON conversions and
 round-trips, AES/RSA encryption, hashing (including a from-scratch MD5
 checked against Node's `crypto` module across every block-padding edge
-case), password entropy math, UUID generation against RFC test vectors, and
-the JSON syntax tokenizer. Known test vectors are pulled from Node's own
-`crypto` module or published RFCs, not hand-typed from memory — several
-early drafts of these tests had hand-typed vectors that were themselves
-wrong, which is exactly the failure mode this approach avoids.
+case), password entropy math, UUID generation against RFC test vectors, the
+JSON syntax tokenizer, and crash-report formatting. A few component tests
+(`@testing-library/react`) cover things that need real rendering to verify,
+like the JSON Tree Editor's depth-limit guard — that test simulates 120
+actual clicks to prove a deeply-expanded tree truncates instead of crashing,
+rather than just asserting the constant exists. Known test vectors are
+pulled from Node's own `crypto` module or published RFCs, not hand-typed
+from memory — several early drafts of these tests had hand-typed vectors
+that were themselves wrong, which is exactly the failure mode this approach
+avoids.
 
 ```bash
 npm run test
@@ -217,6 +222,26 @@ npm run test
 
 CI runs this suite, lint, and a full build on every push and PR — see
 `.github/workflows/ci.yml`.
+
+## Hardening against pathological input
+
+A few tools accept arbitrary, unbounded user input, which needed specific
+protection beyond normal error handling:
+
+- **Regex Tester** runs matching in a Web Worker with a 2-second timeout.
+  A pattern like `(a+)+$` against a moderately long string triggers
+  catastrophic backtracking — a single regex engine call that can hang for
+  minutes, which JavaScript cannot interrupt from within the same thread.
+  The worker gets forcibly terminated and respawned if it doesn't return in
+  time, instead of freezing the tab.
+- **Hash Generator** hashes files (and pasted text) in a Web Worker instead
+  of on the main thread, since the hand-written MD5 implementation runs a
+  synchronous loop with no yielding — on a large file this would otherwise
+  block the entire UI for as long as it takes to finish.
+- **JSON Tree Editor** caps recursion at 80 levels. `JSON.parse` itself
+  comfortably handles far deeper nesting than that, but recursively
+  *rendering* a React component tree that deep costs much more stack space
+  per level and can exhaust the call stack before parsing ever would.
 
 ## Accessibility & error visibility
 

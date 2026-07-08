@@ -12,8 +12,10 @@ const toneConfig: Record<Tone, { icon: typeof Info; bg: string; fg: string }> = 
 
 export function Callout({ tone, children }: { tone: Tone; children: ReactNode }) {
   const { icon: Icon, bg, fg } = toneConfig[tone];
+  const isUrgent = tone === "bad" || tone === "warn";
   return (
     <div
+      role={isUrgent ? "alert" : "status"}
       className="flex items-start gap-2.5 rounded-xl px-4 py-3 text-sm"
       style={{ background: bg, color: fg }}
     >

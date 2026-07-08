@@ -3,6 +3,18 @@ import { HighlightedJson } from "./HighlightedJson";
 
 const CODE_TEXT_CLASSES = "font-mono text-[13px] leading-relaxed whitespace-pre";
 
+// tabSize needs the -moz- prefix for older Firefox; WebkitTextFillColor is
+// required on Safari, which doesn't fully honor `color: transparent` on
+// form elements the way `-webkit-text-fill-color` does — without it, the
+// "invisible textarea over a highlighted <pre>" technique shows faint or
+// fully visible black text on top of the colored syntax highlighting in
+// Safari specifically.
+const tabSizeStyle: React.CSSProperties = { tabSize: 2, MozTabSize: 2 } as React.CSSProperties;
+const transparentTextStyle: React.CSSProperties = {
+  ...tabSizeStyle,
+  WebkitTextFillColor: "transparent",
+} as React.CSSProperties;
+
 interface CodeAreaProps {
   value: string;
   onChange?: (value: string) => void;
@@ -43,7 +55,7 @@ export function CodeArea({
       className={`shrink-0 select-none overflow-hidden bg-[var(--color-surface)] px-3 py-3 text-right text-[var(--color-ink-faint)] ${CODE_TEXT_CLASSES} ${
         readOnly ? "sticky left-0 z-10" : ""
       }`}
-      style={{ tabSize: 2 }}
+      style={tabSizeStyle}
       aria-hidden
     >
       {Array.from({ length: lineCount }, (_, i) => (
@@ -56,7 +68,7 @@ export function CodeArea({
     return (
       <div className="flex h-full overflow-auto">
         {gutter}
-        <pre className={`flex-1 px-4 py-3 text-[var(--color-ink)] ${CODE_TEXT_CLASSES}`} style={{ tabSize: 2 }}>
+        <pre className={`flex-1 px-4 py-3 text-[var(--color-ink)] ${CODE_TEXT_CLASSES}`} style={tabSizeStyle}>
           {value ? (
             highlight ? <HighlightedJson text={value} /> : value
           ) : (
@@ -76,7 +88,7 @@ export function CodeArea({
             ref={highlightRef}
             aria-hidden
             className={`pointer-events-none absolute inset-0 overflow-hidden px-4 py-3 text-[var(--color-ink)] ${CODE_TEXT_CLASSES}`}
-            style={{ tabSize: 2 }}
+            style={tabSizeStyle}
           >
             <HighlightedJson text={value} />
           </pre>
@@ -91,7 +103,7 @@ export function CodeArea({
           className={`focus-ring absolute inset-0 resize-none overflow-auto bg-transparent px-4 py-3 placeholder:text-[var(--color-ink-faint)] ${CODE_TEXT_CLASSES} ${
             highlight ? "text-transparent caret-[var(--color-ink)]" : "text-[var(--color-ink)]"
           }`}
-          style={{ tabSize: 2 }}
+          style={highlight ? transparentTextStyle : tabSizeStyle}
         />
       </div>
     </div>

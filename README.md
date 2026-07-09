@@ -52,16 +52,10 @@ runs on the Web Crypto API and client-side JS, not a server you have to trust.
 
 ## Screenshots
 
-> Screenshots below reflect an earlier build — retake after the cream/gold
-> theme refresh to keep this section current.
-
-<div align="center">
-<img src="docs/screenshots/Homepage.png" alt="DevKit homepage" width="800" />
-<br /><br />
-<img src="docs/screenshots/JSON%20Formatter.png" alt="JSON Formatter" width="800" />
-<br /><br />
-<img src="docs/screenshots/JWT%20Validator.png" alt="JWT Validator" width="800" />
-</div>
+Screenshots aren't included yet — the ones previously here predated the
+cream/gold theme redesign and no longer reflect the current app. The
+**[live demo](https://dev-tools-suite-xi.vercel.app/)** is the accurate,
+current version; screenshots will replace this note once retaken.
 
 ## Tools
 
@@ -143,8 +137,8 @@ runs on the Web Crypto API and client-side JS, not a server you have to trust.
 ## Getting started
 
 ```bash
-git clone <your-repo-url>
-cd devkit
+git clone https://github.com/Zephyrex21/dev-tools-suite.git
+cd dev-tools-suite
 npm install
 npm run dev       # http://localhost:5173
 ```
@@ -152,7 +146,7 @@ npm run dev       # http://localhost:5173
 ```bash
 npm run build      # production build -> dist/
 npm run preview    # serve the production build locally
-npm run test        # run the Vitest suite (80+ tests, lib/ logic)
+npm run test        # run the Vitest suite (92 tests: lib/ logic + component tests)
 npm run lint        # oxlint
 ```
 

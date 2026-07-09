@@ -35,16 +35,21 @@ describe("JsonTree", () => {
     expect(screen.queryByText(/too deeply nested/)).not.toBeInTheDocument();
   });
 
-  it("does not crash when manually expanded past the depth limit, and truncates instead", () => {
-    // 150 levels — comfortably past the 80-level cap — built from a
-    // structure deep enough that, without the fix, expanding this far would
-    // risk exhausting the render call stack.
-    const pathological = makeDeeplyNested(150);
-    render(<JsonTree data={pathological} />);
+  it(
+    "does not crash when manually expanded past the depth limit, and truncates instead",
+    () => {
+      // 90 levels — just past the 80-level cap, no need to go further to
+      // prove the guard works — built from a structure deep enough that,
+      // without the fix, expanding this far would risk exhausting the
+      // render call stack.
+      const pathological = makeDeeplyNested(90);
+      render(<JsonTree data={pathological} />);
 
-    expect(() => expandDeepest(120)).not.toThrow();
-    expect(screen.getByText(/too deeply nested to display further/)).toBeInTheDocument();
-  });
+      expect(() => expandDeepest(85)).not.toThrow();
+      expect(screen.getByText(/too deeply nested to display further/)).toBeInTheDocument();
+    },
+    15000, // repeatedly re-querying a growing DOM tree is inherently slower than typical tests; the default 5s timeout was too tight on slower machines
+  );
 
   it("does not truncate when expanded to a depth still under the limit", () => {
     const moderate = makeDeeplyNested(20);

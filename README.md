@@ -52,10 +52,17 @@ runs on the Web Crypto API and client-side JS, not a server you have to trust.
 
 ## Screenshots
 
-Screenshots aren't included yet — the ones previously here predated the
-cream/gold theme redesign and no longer reflect the current app. The
-**[live demo](https://dev-tools-suite-xi.vercel.app/)** is the accurate,
-current version; screenshots will replace this note once retaken.
+<div align="center">
+<img src="docs/screenshots/screenshot-1.png" alt="DevKit — screenshot 1" width="800" />
+<br /><br />
+<img src="docs/screenshots/screenshot-2.png" alt="DevKit — screenshot 2" width="800" />
+<br /><br />
+<img src="docs/screenshots/screenshot-3.png" alt="DevKit — screenshot 3" width="800" />
+</div>
+
+*(Filenames and alt text are placeholders — I couldn't visually confirm what
+each image shows, so double-check these are captioned/ordered the way you
+want before this goes in front of anyone. See the note below.)*
 
 ## Tools
 
